@@ -10,9 +10,9 @@ st.set_page_config(page_title="LeptoShield", page_icon="leptoshield_icon.png", l
 plt.rcParams.update({
     'axes.facecolor': 'white',
     'axes.edgecolor': '#3d3d3d',
-    'axes.labelcolor': '#19535b',
-    'xtick.color': '#19535b',
-    'ytick.color': '#19535b',
+    'axes.labelcolor': 'gray',  # Change label color to gray
+    'xtick.color': 'gray',      # Change x-tick color to gray
+    'ytick.color': 'gray',      # Change y-tick color to gray
     'text.color': '#19535b',
     'figure.facecolor': 'white',
     'figure.edgecolor': 'white',
@@ -39,7 +39,7 @@ st.markdown("""
     h1, h2, h3, h4, h5, h6 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
-        font-size: 36px;
+        font-size: 32px;  /* Adjusted font size */
     }
     .css-18e3th9 {
         color: white !important;
@@ -112,9 +112,11 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         ax.set_xlabel('Month')
         ax.set_ylabel('Average Number of Cases')
         
+        # Highlight top 3 months with a different color and add labels
         for _, row in top_months.iterrows():
             ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=10)
-        
+            ax.text(row['month'], row['case_total'] + 0.2, f'{row["month"]}', color='blue', ha='center')
+
         st.pyplot(fig)
 
     def show_chatbot(language):

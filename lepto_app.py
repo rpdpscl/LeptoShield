@@ -24,7 +24,7 @@ plt.rcParams.update({
     'axes.titlecolor': 'gray',
 })
 
-# Add custom CSS for Streamlit theme with adjustments for translations
+# Add custom CSS for Streamlit theme with adjustments for title, description, and spacing
 st.markdown("""
     <style>
     .main {
@@ -46,26 +46,26 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
-        font-size: 28px;
+        font-size: 36px;  /* Larger font size for the LeptoShield title */
         margin-top: 20px;
-    }
-    h2 {
-        font-size: 20px;
+        text-align: center;  /* Center the title */
     }
     p {
         color: #3d3d3d;
-        font-size: 14px;
-        line-height: 1.4;  /* Adjusted line height for better readability */
-        word-wrap: break-word;  /* Prevent text overflow */
+        font-size: 14px;  /* Smaller font size for the description */
+        line-height: 1.4;
+        opacity: 0.8;  /* Slightly lower opacity for the description */
+        margin-bottom: 10px;  /* Reduce the space after the description */
     }
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
-        max-width: 90%;  /* Ensure containers have some flexibility */
     }
-    .css-1lcbmhc {
-        display: flex;
-        justify-content: space-between;
+    h2 {
+        margin-top: 20px;  /* Reduce the space between description and City Insights */
+    }
+    .stMarkdown {
+        margin-bottom: 10px;  /* Adjust margin to reduce space between sections */
     }
     </style>
 """, unsafe_allow_html=True)

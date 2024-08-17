@@ -17,6 +17,7 @@ plt.rcParams.update({
     'figure.edgecolor': 'white',
     'grid.color': '#3d3d3d',
     'lines.color': '#19535b',
+    'axes.titlecolor': 'gray',  # Set chart title color to gray
 })
 
 # Add custom CSS for Streamlit theme, including white page title
@@ -103,53 +104,60 @@ if 'lepto_df' in locals() and not lepto_df.empty:
     def show_city_insights(selected_city):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
 
+        # Layout for 3 columns
+        col1, col2, col3 = st.columns(3)
+
         # Visualization 1: Average Monthly Cases
-        st.subheader(f"{selected_city} Ave Monthly Cases")
-        monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
-        monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
-        top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
+        with col1:
+            st.subheader(f"{selected_city} Ave Monthly Cases")
+            monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
+            monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
+            top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
 
-        fig, ax = plt.subplots(figsize=(8, 5))
-        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
-        ax.set_xticks(range(1, 13))
-        ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-        ax.set_xlabel('Month')
-        ax.set_ylabel('Average Number of Cases')
-        
-        # Highlight top 3 months with a smaller marker and add month labels (3-letter abbreviations)
-        for _, row in top_months.iterrows():
-            ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
-            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
-            ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
+            fig, ax = plt.subplots(figsize=(4, 4))
+            ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
+            ax.set_xticks(range(1, 13))
+            ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+            ax.set_xlabel('Month')
+            ax.set_ylabel('Average Number of Cases')
+            ax.set_title('Average Monthly Cases', fontsize=14, color='gray')
+            for _, row in top_months.iterrows():
+                ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
+                month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
+                ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
 
-        st.pyplot(fig)
+            st.pyplot(fig)
 
         # Visualization 2: Total Number of Cases per Year
-        st.subheader("Total Number of Cases per Year")
-        yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
+        with col2:
+            st.subheader("Total Number of Cases per Year")
+            yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
 
-        fig, ax = plt.subplots(figsize=(8, 5))
-        ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
-        ax.set_xlabel('Year')
-        ax.set_ylabel('Total Number of Cases')
-        st.pyplot(fig)
+            fig, ax = plt.subplots(figsize=(4, 4))
+            ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
+            ax.set_xlabel('Year')
+            ax.set_ylabel('Total Number of Cases')
+            ax.set_title('Total Cases Per Year', fontsize=14, color='gray')
+            st.pyplot(fig)
         
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
-        case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
-        with_case_count = case_counts.get('With Case', 0)
-        without_case_count = case_counts.get('Without Case', 0)
+        with col3:
+            case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
+            with_case_count = case_counts.get('With Case', 0)
+            without_case_count = case_counts.get('Without Case', 0)
 
-        # Prepare data for plotting
-        weekly_counts = pd.DataFrame({
-            'case_category': ['With Cases', 'Without Cases'],
-            'count': [with_case_count, without_case_count]
-        })
+            # Prepare data for plotting
+            weekly_counts = pd.DataFrame({
+                'case_category': ['With Cases', 'Without Cases'],
+                'count': [with_case_count, without_case_count]
+            })
 
-        fig, ax = plt.subplots(figsize=(8, 5))
-        ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#3d3d3d'])
-        ax.set_xlabel('Category')
-        ax.set_ylabel('Number of Weeks')
-        st.pyplot(fig)
+            fig, ax = plt.subplots(figsize=(4, 4))
+            ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#3d3d3d'])
+            ax.set_xlabel('Category')
+            ax.set_ylabel('Number of Weeks')
+            ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
+            st.pyplot(fig)
 
     def show_chatbot(language):
         st.write(f"QnA Chatbot (Language: {language})")

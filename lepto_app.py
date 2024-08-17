@@ -24,7 +24,7 @@ plt.rcParams.update({
     'axes.titlecolor': 'gray',
 })
 
-# Add custom CSS for Streamlit theme with adjustments for title, description, and spacing
+# Add custom CSS for Streamlit theme with adjustments for translations
 st.markdown("""
     <style>
     .main {
@@ -46,26 +46,26 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
-        font-size: 36px;  /* Larger font size for the LeptoShield title */
+        font-size: 28px;
         margin-top: 20px;
-        text-align: center;  /* Center the title */
+    }
+    h2 {
+        font-size: 20px;
     }
     p {
         color: #3d3d3d;
-        font-size: 14px;  /* Smaller font size for the description */
-        line-height: 1.4;
-        opacity: 0.8;  /* Slightly lower opacity for the description */
-        margin-bottom: 10px;  /* Reduce the space after the description */
+        font-size: 14px;
+        line-height: 1.4;  /* Adjusted line height for better readability */
+        word-wrap: break-word;  /* Prevent text overflow */
     }
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
+        max-width: 90%;  /* Ensure containers have some flexibility */
     }
-    h2 {
-        margin-top: 20px;  /* Reduce the space between description and City Insights */
-    }
-    .stMarkdown {
-        margin-bottom: 10px;  /* Adjust margin to reduce space between sections */
+    .css-1lcbmhc {
+        display: flex;
+        justify-content: space-between;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -116,6 +116,13 @@ if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("LeptoShield")
         
+        # Arrange the selectors side by side
+        col1, col2 = st.columns(2)
+        with col1:
+            selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+        with col2:
+            language = st.selectbox("Select Language", list(language_codes.keys()))
+        
         # Display the app description and disclaimer
         description = """
         **This app helps predict and prevent leptospirosis by analyzing key risk factors and providing essential medical information through an interactive chatbot named LeptoGuide.**
@@ -126,17 +133,87 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         **Project CCHAIN:** Covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
         """
+        translated_description = translate_text(description, language)  # Translate based on selected language
+        st.markdown(translated_description)
+
+        st.sidebar.title("Navigation")
+        section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         
-        # Display the markdown content
-        st.markdown(description)
+        if section == "City Insights":
+            show_city_insights(selected_city, language)
+        elif section == "QnA Chatbot":
+            show_chatbot(language)
+        elif section == "Medical Facility Locator":
+            show_locator(language)
+            
+    def show_city_insights(selected_city, language):
+        city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
 
-        # Other parts of the app...
+        # Layout for 3 columns
+        col1, col2, col3 = st.columns(3)
 
-        st.header("City Insights")
-        st.selectbox("Select a City", lepto_df['adm3_en'].unique())
-        st.selectbox("Select Language", list(language_codes.keys()))
+        # Set uniform figure size
+        fig_size = (4, 4)
 
-        # More content like charts...
+        # Visualization 1: Average Monthly Cases
+        with col1:
+            monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
+            monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
+            top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
+
+            fig, ax = plt.subplots(figsize=fig_size)
+            ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
+            ax.set_xticks(range(1, 13))
+            ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
+            ax.set_title('Average Monthly Cases', fontsize=14, color='gray')
+
+            for _, row in top_months.iterrows():
+                ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
+                month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
+                ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)
+
+            st.pyplot(fig)
+
+        # Visualization 2: Total Number of Cases per Year (2008-2020)
+        with col2:
+            yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
+
+            fig, ax = plt.subplots(figsize=fig_size)
+            ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
+            ax.set_xticks(range(2008, 2021))
+            ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
+            ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
+            st.pyplot(fig)
+        
+        # Visualization 3: Weeks with Cases vs. Weeks without Cases
+        with col3:
+            case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
+            with_case_count = case_counts.get('With Case', 0)
+            without_case_count = case_counts.get('Without Case', 0)
+
+            # Prepare data for plotting
+            weekly_counts = pd.DataFrame({
+                'case_category': ['With Cases', 'Without Cases'],
+                'count': [with_case_count, without_case_count]
+            })
+
+            fig, ax = plt.subplots(figsize=fig_size)
+            ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#d9d9d9'])
+            ax.set_ylabel('Number of Weeks')
+            ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
+            st.pyplot(fig)
+
+    def show_chatbot(language):
+        # Placeholder for chatbot section
+        chatbot_text = "This is the chatbot section. You can ask questions about leptospirosis here."
+        translated_chatbot_text = translate_text(chatbot_text, language)
+        st.write(translated_chatbot_text)
+
+    def show_locator(language):
+        # Placeholder for medical facility locator section
+        locator_text = "This section will help you locate the nearest medical facilities."
+        translated_locator_text = translate_text(locator_text, language)
+        st.write(translated_locator_text)
 
     if __name__ == "__main__":
         main()

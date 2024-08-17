@@ -1,3 +1,5 @@
+# Updated Streamlit app with the sidebar options adjusted
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,35 +21,18 @@ def main():
     
     # Sidebar navigation
     st.sidebar.title("Navigation")
-    section = st.sidebar.radio("Go to", ["Home", "Predictors of Leptospirosis", "Historical Outbreaks", "QnA Chatbot", "Medical Facility Locator"])
+    section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
     
     # Navigation to sections
-    if section == "Home":
-        show_home(language)
-    elif section == "Predictors of Leptospirosis":
-        show_predictors(language)
-    elif section == "Historical Outbreaks":
-        show_outbreaks(language)
+    if section == "City Insights":
+        show_city_insights(language)
     elif section == "QnA Chatbot":
         show_chatbot(language)
     elif section == "Medical Facility Locator":
         show_locator(language)
 
-# Home section
-def show_home(language):
-    if language == "English":
-        st.write("Welcome to the Leptospirosis Risk and Response Tool.")
-    elif language == "Tagalog":
-        st.write("Maligayang pagdating sa Leptospirosis Risk and Response Tool.")
-    elif language == "Bisaya":
-        st.write("Malipayong pag-abot sa Leptospirosis Risk and Response Tool.")
-
-# Predictors section placeholder
-def show_predictors(language):
-    st.write(f"Predictors of Leptospirosis (Language: {language})")
-
-# Historical Outbreaks section
-def show_outbreaks(language):
+# City Insights section (formerly Historical Outbreaks)
+def show_city_insights(language):
     # City Selector
     cities = lepto_df['adm3_en'].unique()
     selected_city = st.selectbox("Select a City", cities)
@@ -76,3 +61,4 @@ def show_locator(language):
 
 if __name__ == "__main__":
     main()
+

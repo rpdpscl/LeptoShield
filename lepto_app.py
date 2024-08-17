@@ -121,8 +121,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         **This app helps predict and prevent leptospirosis by analyzing key risk factors and providing essential medical information through an interactive chatbot named LeptoGuide.**
 
         *Disclaimer: This app is for informational purposes only. Always consult with a healthcare professional for medical advice, diagnosis, or treatment.*
-
-        **Data Source:** The data is sourced from **Project CCHAIN Dataset**. It covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
         """
         st.markdown(description)
         

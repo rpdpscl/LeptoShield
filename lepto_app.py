@@ -21,10 +21,10 @@ plt.rcParams.update({
     'figure.edgecolor': 'white',
     'grid.color': '#3d3d3d',
     'lines.color': '#19535b',
-    'axes.titlecolor': 'gray',  # Set chart title color to gray
+    'axes.titlecolor': 'gray',
 })
 
-# Add custom CSS for Streamlit theme, including smaller text size
+# Add custom CSS for Streamlit theme with adjustments for translations
 st.markdown("""
     <style>
     .main {
@@ -46,19 +46,22 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
-        font-size: 28px;  /* Reduced font size */
-        margin-top: 20px;  /* Add margin to prevent chopping */
+        font-size: 28px;
+        margin-top: 20px;
     }
     h2 {
-        font-size: 20px;  /* Make chart title smaller */
+        font-size: 20px;
     }
     p {
         color: #3d3d3d;
-        font-size: 14px;  /* Reduced paragraph font size */
+        font-size: 14px;
+        line-height: 1.4;  /* Adjusted line height for better readability */
+        word-wrap: break-word;  /* Prevent text overflow */
     }
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
+        max-width: 90%;  /* Ensure containers have some flexibility */
     }
     .css-1lcbmhc {
         display: flex;
@@ -167,7 +170,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             for _, row in top_months.iterrows():
                 ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
                 month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
-                ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)  # Adjusted text position and font size
+                ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)
 
             st.pyplot(fig)
 

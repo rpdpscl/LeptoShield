@@ -4,10 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # Load your custom icon (shield icon)
-icon = Image.open('path_to_your_shield_icon.png')
-
-# Set the page configuration (title and icon)
-st.set_page_config(page_title="LeptoShield", page_icon=icon, layout="wide")
+st.set_page_config(page_title="LeptoShield", page_icon="leptoshield_icon.png", layout="wide")
 
 # Set matplotlib's default color scheme for the plots
 plt.rcParams.update({

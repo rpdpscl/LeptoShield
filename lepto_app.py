@@ -1,6 +1,3 @@
-# Creating the basic structure of the Streamlit app
-
-streamlit_code = '''
 import streamlit as st
 
 # Set up the main structure of the app
@@ -52,8 +49,3 @@ def show_locator(language):
 
 if __name__ == "__main__":
     main()
-'''
-
-# Display the generated code for review
-streamlit_code[:1000]  # Displaying only the first 1000 characters for brevity
-

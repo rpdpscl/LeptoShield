@@ -109,7 +109,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         # Visualization 1: Average Monthly Cases
         with col1:
-            st.subheader(f"{selected_city} Ave Monthly Cases")
             monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
             monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
             top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
@@ -130,7 +129,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         # Visualization 2: Total Number of Cases per Year (2008-2020)
         with col2:
-            st.subheader("Total Cases Per Year (2008-2020)")
             yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
 
             fig, ax = plt.subplots(figsize=(4, 4))

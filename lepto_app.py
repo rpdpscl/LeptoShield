@@ -122,9 +122,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         *Disclaimer: This app is for informational purposes only. Always consult with a healthcare professional for medical advice, diagnosis, or treatment.*
 
-        **Data Source:** The data available here are sourced from the Project CCHAIN dataset.
-
-        **Project CCHAIN:** Covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
+        **Data Source:** The data is sourced from **Project CCHAIN Dataset**. It covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
         """
         st.markdown(description)
         

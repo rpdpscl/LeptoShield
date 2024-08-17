@@ -102,12 +102,13 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
     def show_city_insights(selected_city):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
+        
+        # Visualization 1: Average Monthly Cases
+        st.subheader(f"{selected_city} Ave Monthly Cases")
         monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
         monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
         top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
 
-        st.subheader(f"{selected_city} Ave Monthly Cases")
-        
         fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
         ax.set_xticks(range(1, 13))
@@ -121,6 +122,18 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
             ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
 
+        st.pyplot(fig)
+        
+        # Visualization 2: Total Number of Cases per Month
+        st.subheader("Total Number of Cases per Month")
+        monthly_cases = city_data.groupby('month')['case_total'].sum().reset_index()
+
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.bar(monthly_cases['month'], monthly_cases['case_total'], color='#19535b')
+        ax.set_xticks(range(1, 13))
+        ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+        ax.set_xlabel('Month')
+        ax.set_ylabel('Total Number of Cases')
         st.pyplot(fig)
 
     def show_chatbot(language):

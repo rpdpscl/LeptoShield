@@ -24,7 +24,7 @@ plt.rcParams.update({
     'axes.titlecolor': 'gray',
 })
 
-# Add custom CSS for Streamlit theme with adjustments for title, description, and spacing
+# Add custom CSS for Streamlit theme with adjustments for translations
 st.markdown("""
     <style>
     .main {
@@ -46,26 +46,26 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
-        font-size: 36px;  /* Larger font size for the LeptoShield title */
+        font-size: 28px;
         margin-top: 20px;
-        text-align: center;  /* Center the title */
+    }
+    h2 {
+        font-size: 20px;
     }
     p {
         color: #3d3d3d;
-        font-size: 14px;  /* Smaller font size for the description */
-        line-height: 1.4;
-        opacity: 0.8;  /* Slightly lower opacity for the description */
-        margin-bottom: 10px;  /* Reduce the space after the description */
+        font-size: 14px;
+        line-height: 1.4;  /* Adjusted line height for better readability */
+        word-wrap: break-word;  /* Prevent text overflow */
     }
     .block-container {
         padding-top: 1rem;
         padding-bottom: 1rem;
+        max-width: 90%;  /* Ensure containers have some flexibility */
     }
-    h2 {
-        margin-top: 20px;  /* Reduce the space between description and City Insights */
-    }
-    .stMarkdown {
-        margin-bottom: 10px;  /* Adjust margin to reduce space between sections */
+    .css-1lcbmhc {
+        display: flex;
+        justify-content: space-between;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -116,6 +116,13 @@ if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("LeptoShield")
         
+        # Arrange the selectors side by side
+        col1, col2 = st.columns(2)
+        with col1:
+            selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+        with col2:
+            language = st.selectbox("Select Language", list(language_codes.keys()))
+        
         # Display the app description and disclaimer
         description = """
         **This app helps predict and prevent leptospirosis by analyzing key risk factors and providing essential medical information through an interactive chatbot named LeptoGuide.**
@@ -126,9 +133,8 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         **Project CCHAIN:** Covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
         """
-        
-        # Display the markdown content
-        st.markdown(description)
+        translated_description = translate_text(description, language)  # Translate based on selected language
+        st.markdown(translated_description)
 
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])

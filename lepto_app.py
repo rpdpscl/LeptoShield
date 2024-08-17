@@ -124,7 +124,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         """
          # Display the markdown content
         st.markdown(description)
-
         st.title("City Insights")
         # Arrange the selectors side by side
         col1, col2 = st.columns(2)

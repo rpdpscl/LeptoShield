@@ -103,7 +103,28 @@ if 'lepto_df' in locals() and not lepto_df.empty:
     def show_city_insights(selected_city):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
 
-        # Visualization 1: Total Number of Cases per Year
+        # Visualization 1: Average Monthly Cases
+        st.subheader(f"{selected_city} Ave Monthly Cases")
+        monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
+        monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
+        top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
+
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
+        ax.set_xticks(range(1, 13))
+        ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+        ax.set_xlabel('Month')
+        ax.set_ylabel('Average Number of Cases')
+        
+        # Highlight top 3 months with a smaller marker and add month labels (3-letter abbreviations)
+        for _, row in top_months.iterrows():
+            ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
+            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
+            ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
+
+        st.pyplot(fig)
+
+        # Visualization 2: Total Number of Cases per Year
         st.subheader("Total Number of Cases per Year")
         yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
 
@@ -113,7 +134,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         ax.set_ylabel('Total Number of Cases')
         st.pyplot(fig)
         
-        # Visualization 2: Weeks with Cases vs. Weeks without Cases
+        # Visualization 3: Weeks with Cases vs. Weeks without Cases
         st.subheader("Weeks with Cases vs. Weeks without Cases")
         weekly_data = city_data.groupby(['year', 'week'])['case_total'].sum().reset_index()
         weekly_data['case_category'] = weekly_data['case_total'].apply(lambda x: 'With Cases' if x > 1 else 'Without Cases')

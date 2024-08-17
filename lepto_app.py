@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from googletrans import Translator
+
+# Initialize the translator
+translator = Translator()
 
 # Set the page configuration (title only, no icon)
 st.set_page_config(page_title="LeptoShield", layout="centered")
@@ -80,29 +84,59 @@ except pd.errors.EmptyDataError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 
+# Define a function to suggest dialects based on selected city
+def suggest_dialects(city):
+    dialect_mapping = {
+        "Iloilo": ["Hiligaynon (Ilonggo)"],
+        "Cagayan de Oro": ["Cebuano"],
+        "Davao": ["Cebuano", "Tagalog"],
+        "Dagupan": ["Pangasinan"],
+        "Navotas": ["Tagalog"],
+        "Zamboanga": ["Chavacano", "Cebuano"],
+        "Muntinlupa": ["Tagalog"],
+        "Mandaluyong": ["Tagalog"],
+        "Tacloban": ["Waray"],
+        "Palayan": ["Tagalog"],
+        "Legazpi": ["Bikolano"],
+        "Mandaue": ["Cebuano"]
+    }
+    return dialect_mapping.get(city, ["Tagalog"])
+
+# Add a function to translate the text based on selected language
+def translate_text(text, language_code):
+    try:
+        translated = translator.translate(text, dest=language_code)
+        return translated.text
+    except Exception as e:
+        st.error(f"Translation error: {e}")
+        return text
+
 if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("City Insights")
         
         col1, col2 = st.columns(2)
         with col1:
-            language = st.selectbox("Select Language", ["English", "Tagalog", "Bisaya"])
-        with col2:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+            dialects = suggest_dialects(selected_city)
+            language = st.selectbox("Select Language", ["English"] + dialects)
             
-        st.markdown("This app helps you understand and predict leptospirosis risks based on environmental factors and historical data.")
+        # Translate the app description based on selected language
+        description = "This app helps you understand and predict leptospirosis risks based on environmental factors and historical data."
+        translated_description = translate_text(description, 'en' if language == "English" else 'tl')
+        st.markdown(translated_description)
 
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         
         if section == "City Insights":
-            show_city_insights(selected_city)
+            show_city_insights(selected_city, language)
         elif section == "QnA Chatbot":
             show_chatbot(language)
         elif section == "Medical Facility Locator":
             show_locator(language)
 
-    def show_city_insights(selected_city):
+    def show_city_insights(selected_city, language):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
 
         # Layout for 3 columns
@@ -155,14 +189,22 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
             fig, ax = plt.subplots(figsize=fig_size)
             ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#d9d9d9'])
+            ax.set_ylabel('Number of Weeks')
             ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)
 
     def show_chatbot(language):
-        st.write(f"QnA Chatbot (Language: {language})")
+        # Placeholder for chatbot section
+        chatbot_text = "This is the chatbot section. You can ask questions about leptospirosis here."
+        translated_chatbot_text = translate_text(chatbot_text, 'en' if language == "English" else 'tl')
+        st.write(translated_chatbot_text)
 
     def show_locator(language):
-        st.write(f"Medical Facility Locator (Language: {language})")
+        # Placeholder for medical facility locator section
+        locator_text = "This section will help you locate the nearest medical facilities."
+        translated_locator_text = translate_text(locator_text, 'en' if language == "English" else 'tl')
+        st.write
+        st.write(translated_locator_text)
 
     if __name__ == "__main__":
         main()

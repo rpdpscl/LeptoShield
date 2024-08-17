@@ -109,7 +109,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         # Visualization 1: Average Monthly Cases
         with col1:
-            st.subheader(f"{selected_city} Ave Monthly Cases")
             monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
             monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
             top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
@@ -131,7 +130,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         # Visualization 2: Total Number of Cases per Year (2008-2020)
         with col2:
-            st.subheader("Total Cases Per Year (2008-2020)")
             yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
 
             fig, ax = plt.subplots(figsize=(4, 4))
@@ -140,7 +138,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
             ax.set_xlabel('Year')
             ax.set_ylabel('Total Number of Cases')
-            ax.set_title('Total Cases Per Year (08-20)', fontsize=14, color='gray')
+            ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
         
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
@@ -157,7 +155,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
             fig, ax = plt.subplots(figsize=(4, 4))
             ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#3d3d3d'])
-            ax.set_xlabel('Category')
             ax.set_ylabel('Number of Weeks')
             ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)

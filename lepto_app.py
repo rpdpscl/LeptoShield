@@ -1,19 +1,26 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from PIL import Image
+
+# Load your custom icon (shield icon)
+icon = Image.open('path_to_your_shield_icon.png')
+
+# Set the page configuration (title and icon)
+st.set_page_config(page_title="LeptoShield", page_icon=icon, layout="wide")
 
 # Set matplotlib's default color scheme for the plots
 plt.rcParams.update({
-    'axes.facecolor': 'white',         # Background of the plot
-    'axes.edgecolor': '#3d3d3d',       # Border color of the plot
-    'axes.labelcolor': '#19535b',      # Label color
-    'xtick.color': '#19535b',          # X-axis tick color
-    'ytick.color': '#19535b',          # Y-axis tick color
-    'text.color': '#19535b',           # Text color in the plot
-    'figure.facecolor': 'white',       # Background color outside the plot
-    'figure.edgecolor': 'white',       # Edge color around the plot
-    'grid.color': '#3d3d3d',           # Gridline color
-    'lines.color': '#19535b',          # Line color (updated to #19535b)
+    'axes.facecolor': 'white',
+    'axes.edgecolor': '#3d3d3d',
+    'axes.labelcolor': '#19535b',
+    'xtick.color': '#19535b',
+    'ytick.color': '#19535b',
+    'text.color': '#19535b',
+    'figure.facecolor': 'white',
+    'figure.edgecolor': 'white',
+    'grid.color': '#3d3d3d',
+    'lines.color': '#19535b',
 })
 
 # Add custom CSS for Streamlit theme
@@ -29,20 +36,22 @@ st.markdown("""
         background-color: #19535b;
         color: white;
     }
-    .stRadio label {
-        color: #19535b;
-    }
-    .stSelectbox label {
-        color: #19535b;
-    }
-    .stSidebar .stRadio label {
-        color: #19535b;
-    }
-    .stSidebar .stSelectbox label {
+    .stRadio label, .stSelectbox label {
         color: #19535b;
     }
     h1, h2, h3, h4, h5, h6 {
-        color: #19535b !important;  /* Header color updated to #19535b */
+        color: #19535b !important;
+    }
+    p {
+        color: #3d3d3d;
+    }
+    .block-container {
+        padding-top: 0rem;
+        padding-bottom: 1rem;
+    }
+    .css-1lcbmhc {
+        display: flex;
+        justify-content: space-between;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -53,7 +62,6 @@ try:
     if lepto_df.empty:
         st.error("The dataset is empty. Please check the CSV file.")
     else:
-        # Convert the date column to datetime format
         lepto_df['date'] = pd.to_datetime(lepto_df['date'])
         lepto_df['month'] = lepto_df['date'].dt.month
         lepto_df['year'] = lepto_df['date'].dt.year
@@ -65,69 +73,49 @@ except pd.errors.EmptyDataError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 
-# Only proceed if the dataset was loaded successfully
 if 'lepto_df' in locals() and not lepto_df.empty:
-    # Set up the main structure of the app
     def main():
-        # Header section
-        st.title("Leptospirosis Risk and Response Tool")
+        st.title("City Insights")
         st.markdown("This app helps you understand and predict leptospirosis risks based on environmental factors and historical data.")
         
-        # Language selector
-        language = st.selectbox("Select Language", ["English", "Tagalog", "Bisaya"])
-        
-        # Sidebar navigation
+        col1, col2 = st.columns(2)
+        with col1:
+            language = st.selectbox("Select Language", ["English", "Tagalog", "Bisaya"])
+        with col2:
+            selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         
-        # Navigation to sections
         if section == "City Insights":
-            show_city_insights(language)
+            show_city_insights(selected_city)
         elif section == "QnA Chatbot":
             show_chatbot(language)
         elif section == "Medical Facility Locator":
             show_locator(language)
 
-    # City Insights section (formerly Historical Outbreaks)
-    def show_city_insights(language):
-        # City Selector
-        cities = lepto_df['adm3_en'].unique()
-        selected_city = st.selectbox("Select a City", cities)
-
-        # Filter data based on the selected city
+    def show_city_insights(selected_city):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
-
-        # Sum cases per month for each year
         monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
-
-        # Calculate the average cases per month across all years
         monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
+        top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
 
-        # Visualization: Monthly Average Summary of Cases
         st.subheader(f"Average Monthly Leptospirosis Cases in {selected_city}")
-
-        # Plotting the data
         fig, ax = plt.subplots()
-        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')  # Line color updated to #19535b
+        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
         ax.set_xticks(range(1, 13))
         ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
         ax.set_xlabel('Month')
         ax.set_ylabel('Average Number of Cases')
-        ax.set_title(f'Average Monthly Leptospirosis Cases in {selected_city}')
         
-        # Highlighting peak months
-        max_cases_month = monthly_avg.loc[monthly_avg['case_total'].idxmax(), 'month']
-        max_cases_value = monthly_avg['case_total'].max()
-        ax.annotate('Peak', xy=(max_cases_month, max_cases_value), xytext=(max_cases_month, max_cases_value + 1),
-                    arrowprops=dict(facecolor='red', shrink=0.05), fontsize=12, color='red')
+        for _, row in top_months.iterrows():
+            ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=10)
         
         st.pyplot(fig)
 
-    # QnA Chatbot section placeholder
     def show_chatbot(language):
         st.write(f"QnA Chatbot (Language: {language})")
 
-    # Medical Facility Locator section placeholder
     def show_locator(language):
         st.write(f"Medical Facility Locator (Language: {language})")
 

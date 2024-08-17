@@ -83,13 +83,14 @@ except Exception as e:
 if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("City Insights")
-        st.markdown("This app helps you understand and predict leptospirosis risks based on environmental factors and historical data.")
         
         col1, col2 = st.columns(2)
         with col1:
             language = st.selectbox("Select Language", ["English", "Tagalog", "Bisaya"])
         with col2:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+            
+        st.markdown("This app helps you understand and predict leptospirosis risks based on environmental factors and historical data.")
 
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])

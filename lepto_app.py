@@ -84,23 +84,8 @@ except pd.errors.EmptyDataError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 
-# Define a function to suggest dialects based on selected city
-def suggest_dialects(city):
-    dialect_mapping = {
-        "Iloilo": ["Hiligaynon (Ilonggo)"],
-        "Cagayan de Oro": ["Cebuano"],
-        "Davao": ["Cebuano", "Tagalog"],
-        "Dagupan": ["Pangasinan"],
-        "Navotas": ["Tagalog"],
-        "Zamboanga": ["Chavacano", "Cebuano"],
-        "Muntinlupa": ["Tagalog"],
-        "Mandaluyong": ["Tagalog"],
-        "Tacloban": ["Waray"],
-        "Palayan": ["Tagalog"],
-        "Legazpi": ["Bikolano"],
-        "Mandaue": ["Cebuano"]
-    }
-    return dialect_mapping.get(city, ["Tagalog"])
+# Define available dialects for selection
+available_dialects = ["English", "Tagalog", "Hiligaynon (Ilonggo)", "Cebuano", "Pangasinan", "Chavacano", "Waray", "Bikolano"]
 
 # Add a function to translate the text based on selected language
 def translate_text(text, language_code):
@@ -108,7 +93,7 @@ def translate_text(text, language_code):
         translated = translator.translate(text, dest=language_code)
         return translated.text
     except Exception as e:
-        st.error(f"Translation error: {e}")
+        st.warning(f"Translation error: {e}")
         return text
 
 if 'lepto_df' in locals() and not lepto_df.empty:
@@ -118,24 +103,24 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         col1, col2 = st.columns(2)
         with col1:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
-            dialects = suggest_dialects(selected_city)
-            language = st.selectbox("Select Language", ["English"] + dialects)
+            language = st.selectbox("Select Language", available_dialects)
             
         # Translate the app description based on selected language
         description = "This app helps you understand and predict leptospirosis risks based on environmental factors and historical data."
-        translated_description = translate_text(description, 'en' if language == "English" else 'tl')
+        language_code = 'en' if language == "English" else 'tl'
+        translated_description = translate_text(description, language_code)
         st.markdown(translated_description)
 
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         
         if section == "City Insights":
-            show_city_insights(selected_city, language)
+            show_city_insights(selected_city, language_code)
         elif section == "QnA Chatbot":
-            show_chatbot(language)
+            show_chatbot(language_code)
         elif section == "Medical Facility Locator":
-            show_locator(language)
-
+            show_locator(language_code)
+            
     def show_city_insights(selected_city, language):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
 

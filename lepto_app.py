@@ -135,7 +135,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         st.pyplot(fig)
         
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
-       case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
+        case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
         with_case_count = case_counts.get('With Case', 0)
         without_case_count = case_counts.get('Without Case', 0)
 

@@ -88,13 +88,7 @@ except Exception as e:
 language_codes = {
     "English": "en",
     "Tagalog": "tl",
-    "Cebuano (Bisaya)": "ceb",
-    "Ilocano": None,  # Assuming Ilocano is not directly supported
-    "Hiligaynon (Ilonggo)": None,  # Assuming Hiligaynon is not directly supported
-    "Waray-Waray": None,  # Assuming Waray-Waray is not directly supported
-    "Chavacano": None,  # Assuming Chavacano is not directly supported
-    "Bikolano (Bikol)": None,  # Assuming Bikolano is not directly supported
-    "Pangasinan": None  # Assuming Pangasinan is not directly supported
+    "Cebuano (Bisaya)": "ceb"
 }
 
 # Add a function to translate the text based on selected language

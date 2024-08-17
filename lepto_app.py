@@ -13,7 +13,7 @@ plt.rcParams.update({
     'figure.facecolor': 'white',       # Background color outside the plot
     'figure.edgecolor': 'white',       # Edge color around the plot
     'grid.color': '#3d3d3d',           # Gridline color
-    'lines.color': '#1477ea',          # Default line color
+    'lines.color': '#19535b',          # Line color (updated to #19535b)
 })
 
 # Add custom CSS for Streamlit theme
@@ -40,6 +40,9 @@ st.markdown("""
     }
     .stSidebar .stSelectbox label {
         color: #19535b;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: #19535b !important;  /* Header color updated to #19535b */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -105,7 +108,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         # Plotting the data
         fig, ax = plt.subplots()
-        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#1477ea')
+        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')  # Line color updated to #19535b
         ax.set_xticks(range(1, 13))
         ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
         ax.set_xlabel('Month')

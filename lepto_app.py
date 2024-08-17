@@ -135,18 +135,14 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         st.pyplot(fig)
         
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
-        st.subheader("Weeks with Cases vs. Weeks without Cases")
-        weekly_data = city_data.groupby(['year', 'week'])['case_total'].sum().reset_index()
-        weekly_data['case_category'] = weekly_data['case_total'].apply(lambda x: 'With Cases' if x > 1 else 'Without Cases')
-
-        # Count the number of weeks in each category
-        weeks_with_cases = weekly_data[weekly_data['case_category'] == 'With Cases'].shape[0]
-        weeks_without_cases = weekly_data[weekly_data['case_category'] == 'Without Cases'].shape[0]
+       case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
+        with_case_count = case_counts.get('With Case', 0)
+        without_case_count = case_counts.get('Without Case', 0)
 
         # Prepare data for plotting
         weekly_counts = pd.DataFrame({
             'case_category': ['With Cases', 'Without Cases'],
-            'count': [weeks_with_cases, weeks_without_cases]
+            'count': [with_case_count, without_case_count]
         })
 
         fig, ax = plt.subplots(figsize=(8, 5))

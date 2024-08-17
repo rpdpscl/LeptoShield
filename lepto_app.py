@@ -3,16 +3,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 
-# Load your custom icon (shield icon)
-st.set_page_config(page_title="LeptoShield", page_icon="leptoshield_icon.png", layout="centered")
+# Set the page configuration (title only, no icon)
+st.set_page_config(page_title="LeptoShield", layout="centered")
 
 # Set matplotlib's default color scheme for the plots
 plt.rcParams.update({
     'axes.facecolor': 'white',
     'axes.edgecolor': '#3d3d3d',
-    'axes.labelcolor': 'gray',  # Change label color to gray
-    'xtick.color': 'gray',      # Change x-tick color to gray
-    'ytick.color': 'gray',      # Change y-tick color to gray
+    'axes.labelcolor': 'gray',
+    'xtick.color': 'gray',
+    'ytick.color': 'gray',
     'text.color': '#19535b',
     'figure.facecolor': 'white',
     'figure.edgecolor': 'white',
@@ -36,13 +36,17 @@ st.markdown("""
     .stRadio label, .stSelectbox label {
         color: #19535b;
     }
-    h1, h2, h3, h4, h5, h6 {
+    .css-18e3th9 {
+        color: white !important;
+    }
+    h1 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
         font-size: 32px;  /* Adjusted font size */
+        margin-top: 20px;  /* Add margin to prevent chopping */
     }
-    .css-18e3th9 {
-        color: white !important;
+    h2 {
+        font-size: 24px;  /* Make chart title smaller */
     }
     p {
         color: #3d3d3d;
@@ -58,7 +62,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Attempt to load the dataset and handle errors
+# Load your dataset and handle errors
 try:
     lepto_df = pd.read_csv('lepto_dfclean.csv')
     if lepto_df.empty:
@@ -104,7 +108,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         st.subheader(f"{selected_city} Ave Monthly Cases")
         
-        # Adjusting the figure size for a more proportional display
         fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
         ax.set_xticks(range(1, 13))
@@ -112,10 +115,11 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         ax.set_xlabel('Month')
         ax.set_ylabel('Average Number of Cases')
         
-        # Highlight top 3 months with a different color and add labels
+        # Highlight top 3 months with a smaller marker and add month labels (3-letter abbreviations)
         for _, row in top_months.iterrows():
-            ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=10)
-            ax.text(row['month'], row['case_total'] + 0.2, f'{row["month"]}', color='blue', ha='center')
+            ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
+            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][row['month']-1]
+            ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
 
         st.pyplot(fig)
 

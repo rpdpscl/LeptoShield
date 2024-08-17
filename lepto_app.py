@@ -115,14 +115,6 @@ def translate_text(text, language):
 if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("LeptoShield")
-        
-        # Arrange the selectors side by side
-        col1, col2 = st.columns(2)
-        with col1:
-            selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
-        with col2:
-            language = st.selectbox("Select Language", list(language_codes.keys()))
-        
         # Display the app description and disclaimer
         description = """
         **This app helps predict and prevent leptospirosis by analyzing key risk factors and providing essential medical information through an interactive chatbot named LeptoGuide.**
@@ -134,8 +126,13 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         **Project CCHAIN:** Covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
         """
         translated_description = translate_text(description, language)  # Translate based on selected language
-        st.markdown(translated_description)
-
+        st.markdown(description)
+        # Arrange the selectors side by side
+        col1, col2 = st.columns(2)
+        with col1:
+            selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+        with col2:
+            language = st.selectbox("Select Language", list(language_codes.keys()))
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         

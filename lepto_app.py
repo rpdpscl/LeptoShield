@@ -88,9 +88,14 @@ except Exception as e:
 available_dialects = ["English", "Tagalog", "Hiligaynon (Ilonggo)", "Cebuano", "Pangasinan", "Chavacano", "Waray", "Bikolano"]
 
 # Add a function to translate the text based on selected language
-def translate_text(text, language_code):
+def translate_text(text, language):
     try:
-        translated = translator.translate(text, dest=language_code)
+        if language == "Tagalog":
+            translated = translator.translate(text, dest='tl')
+        elif language == "English":
+            translated = text  # No translation needed
+        else:
+            translated = translator.translate(text, dest='tl')  # Use Tagalog as a fallback for dialects
         return translated.text
     except Exception as e:
         st.warning(f"Translation error: {e}")
@@ -100,26 +105,27 @@ if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("City Insights")
         
+        # Arrange the selectors side by side
         col1, col2 = st.columns(2)
         with col1:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+        with col2:
             language = st.selectbox("Select Language", available_dialects)
             
         # Translate the app description based on selected language
         description = "This app helps you understand and predict leptospirosis risks based on environmental factors and historical data."
-        language_code = 'en' if language == "English" else 'tl'
-        translated_description = translate_text(description, language_code)
+        translated_description = translate_text(description, language)
         st.markdown(translated_description)
 
         st.sidebar.title("Navigation")
         section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         
         if section == "City Insights":
-            show_city_insights(selected_city, language_code)
+            show_city_insights(selected_city, language)
         elif section == "QnA Chatbot":
-            show_chatbot(language_code)
+            show_chatbot(language)
         elif section == "Medical Facility Locator":
-            show_locator(language_code)
+            show_locator(language)
             
     def show_city_insights(selected_city, language):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]

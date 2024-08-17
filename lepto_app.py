@@ -125,7 +125,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             for _, row in top_months.iterrows():
                 ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
                 month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
-                ax.text(row['month'] + 0.3, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)  # Adjusted text position and font size
+                ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)  # Adjusted text position and font size
 
             st.pyplot(fig)
 

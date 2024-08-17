@@ -118,7 +118,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         
         # Display the app description and disclaimer
         description = """
-        **This app helps predict and prevent leptospirosis by analyzing key risk factors and providing essential medical information through an interactive chatbot named LeptoGuide.**
+        **This app predicts and prevents leptospirosis by analyzing risk factors and providing medical info via the LeptoGuide chatbot.**
 
         *Disclaimer: This app is for informational purposes only. Always consult with a healthcare professional for medical advice, diagnosis, or treatment.*
         """

@@ -24,7 +24,7 @@ plt.rcParams.update({
     'axes.titlecolor': 'gray',  # Set chart title color to gray
 })
 
-# Add custom CSS for Streamlit theme, including white page title
+# Add custom CSS for Streamlit theme, including smaller text size
 st.markdown("""
     <style>
     .main {
@@ -46,14 +46,15 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-family: 'Arial', sans-serif;
-        font-size: 32px;  /* Adjusted font size */
+        font-size: 28px;  /* Reduced font size */
         margin-top: 20px;  /* Add margin to prevent chopping */
     }
     h2 {
-        font-size: 24px;  /* Make chart title smaller */
+        font-size: 20px;  /* Make chart title smaller */
     }
     p {
         color: #3d3d3d;
+        font-size: 14px;  /* Reduced paragraph font size */
     }
     .block-container {
         padding-top: 1rem;
@@ -129,7 +130,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
         **Project CCHAIN:** Covers 29 tables over 20 years (2003-2022) with health, climate, environmental, and socioeconomic data for 12 Philippine cities.
         """
-        translated_description = translate_text(description, "English")  # Default to English
+        translated_description = translate_text(description, language)  # Translate based on selected language
         st.markdown(translated_description)
 
         st.sidebar.title("Navigation")

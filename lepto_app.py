@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 
 # Load your custom icon (shield icon)
-st.set_page_config(page_title="LeptoShield", page_icon="leptoshield_icon.png", layout="wide")
+st.set_page_config(page_title="LeptoShield", page_icon="leptoshield_icon.png", layout="centered")
 
 # Set matplotlib's default color scheme for the plots
 plt.rcParams.update({
@@ -20,7 +20,7 @@ plt.rcParams.update({
     'lines.color': '#19535b',
 })
 
-# Add custom CSS for Streamlit theme
+# Add custom CSS for Streamlit theme, including white page title
 st.markdown("""
     <style>
     .main {
@@ -37,13 +37,13 @@ st.markdown("""
         color: #19535b;
     }
     h1, h2, h3, h4, h5, h6 {
-        color: #19535b !important;
+        color: white !important;  /* Page title color set to white */
     }
     p {
         color: #3d3d3d;
     }
     .block-container {
-        padding-top: 0rem;
+        padding-top: 1rem;
         padding-bottom: 1rem;
     }
     .css-1lcbmhc {
@@ -98,7 +98,9 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
 
         st.subheader(f"Average Monthly Leptospirosis Cases in {selected_city}")
-        fig, ax = plt.subplots()
+        
+        # Adjusting the figure size for a more proportional display
+        fig, ax = plt.subplots(figsize=(8, 5))
         ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
         ax.set_xticks(range(1, 13))
         ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])

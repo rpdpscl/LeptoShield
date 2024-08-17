@@ -37,7 +37,12 @@ st.markdown("""
         color: #19535b;
     }
     h1, h2, h3, h4, h5, h6 {
-        color: white !important;  /* Page title color set to white */
+        color: #19535b !important;
+        font-family: 'Arial', sans-serif;
+        font-size: 36px;
+    }
+    .css-18e3th9 {
+        color: white !important;
     }
     p {
         color: #3d3d3d;
@@ -97,7 +102,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
         top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
 
-        st.subheader(f"Average Monthly Leptospirosis Cases in {selected_city}")
+        st.subheader(f"{selected_city} Ave Monthly Cases")
         
         # Adjusting the figure size for a more proportional display
         fig, ax = plt.subplots(figsize=(8, 5))

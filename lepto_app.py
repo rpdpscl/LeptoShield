@@ -137,7 +137,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
             ax.set_xlabel('Year')
             ax.set_ylabel('Total Number of Cases')
-            ax.set_title('Total Cases Per Year (08-20)', fontsize=14, color='gray')
+            ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
         
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
@@ -154,7 +154,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
             fig, ax = plt.subplots(figsize=(4, 4))
             ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#3d3d3d'])
-            ax.set_xlabel('Category')
             ax.set_ylabel('Number of Weeks')
             ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)

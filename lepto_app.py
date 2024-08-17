@@ -117,8 +117,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_xlabel('Month')
-            ax.set_ylabel('Average Number of Cases')
             ax.set_title('Average Monthly Cases', fontsize=14, color='gray')
 
             for _, row in top_months.iterrows():
@@ -136,8 +134,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
             ax.set_xticks(range(2008, 2021))
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
-            ax.set_xlabel('Year')
-            ax.set_ylabel('Total Number of Cases')
             ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
         

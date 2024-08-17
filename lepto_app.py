@@ -118,7 +118,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Highlight top 3 months with a smaller marker and add month labels (3-letter abbreviations)
         for _, row in top_months.iterrows():
             ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
-            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][row['month']-1]
+            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
             ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
 
         st.pyplot(fig)

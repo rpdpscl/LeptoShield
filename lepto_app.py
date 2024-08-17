@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from PIL import Image
 
 # Set the page configuration (title only, no icon)
 st.set_page_config(page_title="LeptoShield", layout="centered")
@@ -71,6 +70,7 @@ try:
         lepto_df['date'] = pd.to_datetime(lepto_df['date'])
         lepto_df['month'] = lepto_df['date'].dt.month
         lepto_df['year'] = lepto_df['date'].dt.year
+        lepto_df['week'] = lepto_df['date'].dt.isocalendar().week
 
 except FileNotFoundError:
     st.error("The file 'lepto_dfclean.csv' was not found. Please upload the correct file and ensure the path is correct.")
@@ -102,38 +102,27 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
     def show_city_insights(selected_city):
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
-        
-        # Visualization 1: Average Monthly Cases
-        st.subheader(f"{selected_city} Ave Monthly Cases")
-        monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
-        monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
-        top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
+
+        # Visualization 1: Total Number of Cases per Year
+        st.subheader("Total Number of Cases per Year")
+        yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
 
         fig, ax = plt.subplots(figsize=(8, 5))
-        ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
-        ax.set_xticks(range(1, 13))
-        ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-        ax.set_xlabel('Month')
-        ax.set_ylabel('Average Number of Cases')
-        
-        # Highlight top 3 months with a smaller marker and add month labels (3-letter abbreviations)
-        for _, row in top_months.iterrows():
-            ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
-            month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
-            ax.text(row['month'], row['case_total'] + 0.2, month_abbr, color='blue', ha='center')
-
+        ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
+        ax.set_xlabel('Year')
+        ax.set_ylabel('Total Number of Cases')
         st.pyplot(fig)
         
-        # Visualization 2: Total Number of Cases per Month
-        st.subheader("Total Number of Cases per Month")
-        monthly_cases = city_data.groupby('month')['case_total'].sum().reset_index()
+        # Visualization 2: Weeks with Cases vs. Weeks without Cases
+        st.subheader("Weeks with Cases vs. Weeks without Cases")
+        weekly_data = city_data.groupby(['year', 'week'])['case_total'].sum().reset_index()
+        weekly_data['case_category'] = weekly_data['case_total'].apply(lambda x: 'With Cases' if x > 1 else 'Without Cases')
+        weekly_counts = weekly_data['case_category'].value_counts().reset_index()
 
         fig, ax = plt.subplots(figsize=(8, 5))
-        ax.bar(monthly_cases['month'], monthly_cases['case_total'], color='#19535b')
-        ax.set_xticks(range(1, 13))
-        ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
-        ax.set_xlabel('Month')
-        ax.set_ylabel('Total Number of Cases')
+        ax.bar(weekly_counts['index'], weekly_counts['case_category'], color=['#19535b', '#3d3d3d'])
+        ax.set_xlabel('Category')
+        ax.set_ylabel('Number of Weeks')
         st.pyplot(fig)
 
     def show_chatbot(language):

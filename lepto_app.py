@@ -84,19 +84,32 @@ except pd.errors.EmptyDataError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 
-# Define available dialects for selection
-available_dialects = ["English", "Tagalog", "Hiligaynon (Ilonggo)", "Cebuano", "Pangasinan", "Chavacano", "Waray", "Bikolano"]
+# Define available dialects and their corresponding Googletrans language codes
+language_codes = {
+    "English": "en",
+    "Tagalog": "tl",
+    "Cebuano (Bisaya)": "ceb",
+    "Ilocano": None,  # Assuming Ilocano is not directly supported
+    "Hiligaynon (Ilonggo)": None,  # Assuming Hiligaynon is not directly supported
+    "Waray-Waray": None,  # Assuming Waray-Waray is not directly supported
+    "Chavacano": None,  # Assuming Chavacano is not directly supported
+    "Bikolano (Bikol)": None,  # Assuming Bikolano is not directly supported
+    "Pangasinan": None  # Assuming Pangasinan is not directly supported
+}
 
 # Add a function to translate the text based on selected language
 def translate_text(text, language):
     try:
-        if language == "Tagalog":
-            translated = translator.translate(text, dest='tl')
-        elif language == "English":
-            translated = text  # No translation needed
+        lang_code = language_codes.get(language)
+        if lang_code:
+            if lang_code == "en":  # No translation needed for English
+                return text
+            translated = translator.translate(text, dest=lang_code)
+            return translated.text
         else:
-            translated = translator.translate(text, dest='tl')  # Use Tagalog as a fallback for dialects
-        return translated.text
+            st.warning(f"Translation for {language} is not supported. Defaulting to Tagalog.")
+            translated = translator.translate(text, dest='tl')  # Use Tagalog as fallback
+            return translated.text
     except Exception as e:
         st.warning(f"Translation error: {e}")
         return text
@@ -110,7 +123,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         with col1:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
         with col2:
-            language = st.selectbox("Select Language", available_dialects)
+            language = st.selectbox("Select Language", list(language_codes.keys()))
             
         # Translate the app description based on selected language
         description = "This app helps you understand and predict leptospirosis risks based on environmental factors and historical data."
@@ -187,14 +200,13 @@ if 'lepto_df' in locals() and not lepto_df.empty:
     def show_chatbot(language):
         # Placeholder for chatbot section
         chatbot_text = "This is the chatbot section. You can ask questions about leptospirosis here."
-        translated_chatbot_text = translate_text(chatbot_text, 'en' if language == "English" else 'tl')
+        translated_chatbot_text = translate_text(chatbot_text, language)
         st.write(translated_chatbot_text)
 
     def show_locator(language):
         # Placeholder for medical facility locator section
         locator_text = "This section will help you locate the nearest medical facilities."
-        translated_locator_text = translate_text(locator_text, 'en' if language == "English" else 'tl')
-        st.write
+        translated_locator_text = translate_text(locator_text, language)
         st.write(translated_locator_text)
 
     if __name__ == "__main__":

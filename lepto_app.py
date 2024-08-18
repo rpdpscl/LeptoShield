@@ -101,7 +101,7 @@ st.markdown("""
 # Load your dataset and handle errors
 try:
     lepto_df = pd.read_csv('lepto_dfclean.csv')
-    city_summary = pd.read_csv('/mnt/data/city_summary.csv')
+    city_summary = pd.read_csv('city_summary.csv')
     
     if lepto_df.empty or city_summary.empty:
         st.error("One or more datasets are empty. Please check the CSV files.")
@@ -142,9 +142,9 @@ if 'lepto_df' in locals() and not lepto_df.empty and 'city_summary' in locals() 
         
         # Update placeholders with actual data from city_summary
         city_area = city_info['city_area']
-        total_population = city_info['total_population']
-        population_density = city_info['population_density']
-        total_cases = city_info['total_cases']
+        total_population = city_info['pop_count_total']
+        population_density = city_info['pop_density']
+        total_cases = city_info['case_total']
 
         # Display the city-specific information
         st.markdown(f"### {selected_city}")

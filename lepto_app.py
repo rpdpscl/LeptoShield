@@ -252,8 +252,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
             fig, ax = plt.subplots(figsize=fig_size)
             ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#d9d9d9'])
-            ax.set_ylabel('Number of Weeks')
-            ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
+            ax.set_title('No. of Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 

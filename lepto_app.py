@@ -51,7 +51,7 @@ st.markdown("""
         text-align: center;  /* Center the title */
     }
     p {
-        color: #3d3d3d;
+        color: #19535b;
         font-size: 12px;  /* Smaller font size for the description */
         line-height: 1.4;
         margin-bottom: 10px;  /* Reduce the space after the description */

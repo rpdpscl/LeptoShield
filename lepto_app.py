@@ -198,8 +198,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
             ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
-            st.markdown(f"The total number of cases peaked at **{max_cases}** in **{max_year}**")
-
 
         # Visualization 2: Average Monthly Cases
         with col2:
@@ -236,9 +234,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Displaying the plot
             st.pyplot(fig)
 
-            # Displaying the summary statement with formatted month names
-            st.markdown(f"The average monthly cases peaked at **{int(peak_cases)}** and were highest in **{top_months_str}**.")
-
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
         with col3:
             case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()
@@ -255,7 +250,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.bar(weekly_counts['case_category'], weekly_counts['count'], color=['#19535b', '#d9d9d9'])
             ax.set_title('No. of Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)
-            st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
         # Layout for 3 columns
         col1, col2, col3 = st.columns(3)

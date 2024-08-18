@@ -185,6 +185,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
 
             # Find the year with the maximum number of cases
             max_year = yearly_cases.loc[yearly_cases['case_total'].idxmax(), 'year']
+            max_cases = yearly_cases['case_total'].max()
 
             fig, ax = plt.subplots(figsize=fig_size)
 
@@ -196,12 +197,15 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
             ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
+            st.markdown(f"**Insight:** The number of cases peaked at {max_cases} in {max_year}.")
 
         # Visualization 2: Average Monthly Cases
         with col2:
             monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
             monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
             top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
+            peak_cases = monthly_avg['case_total'].max()
+            top_month_names = ', '.join([['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1] for _, row in top_months.iterrows()])
 
             fig, ax = plt.subplots(figsize=fig_size)
             ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#d9d9d9', markersize = 6)
@@ -215,6 +219,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#19535b', ha='left', fontsize=8)
 
             st.pyplot(fig)
+            st.markdown(f"**Insight:** The average monthly cases peaked at {peak_cases} and were highest in {top_month_names}.")
 
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
         with col3:
@@ -233,6 +238,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_ylabel('Number of Weeks')
             ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)
+            st.markdown(f"**Insight:** From 2008-2020, there were {with_case_count} weeks with cases and {without_case_count} weeks without cases.")
 
     def show_chatbot(language):
         # Placeholder for chatbot section

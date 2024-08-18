@@ -24,7 +24,7 @@ plt.rcParams.update({
 # Load your dataset and handle errors
 try:
     lepto_df = pd.read_csv('lepto_dfclean.csv')
-    city_summary = pd.read_csv('/mnt/data/city_summary.csv')
+    city_summary = pd.read_csv('city_summary.csv')
     
     if lepto_df.empty or city_summary.empty:
         st.error("One or more datasets are empty. Please check the CSV files.")

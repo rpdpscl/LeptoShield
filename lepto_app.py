@@ -54,7 +54,7 @@ st.markdown("""
         color: #19535b;
         font-size: 12px;  /* Smaller font size for the description */
         line-height: 1.4;
-        margin-bottom: 10px;  /* Reduce the space after the description */
+        margin-bottom: 2px;  /* Reduce the space after the description */
     }
     .block-container {
         padding-top: 1rem;

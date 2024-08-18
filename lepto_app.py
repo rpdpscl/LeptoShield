@@ -158,9 +158,27 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         
         # Arrange the selectors side by side
         col1, col2 = st.columns(2)
+
         with col1:
-            selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+            st.markdown("""
+                <style>
+                .stSelectbox label {
+                color: #3d3d3d;  /* Set label color to #3d3d3d */
+                font-size: 12px;  /* Set label font size to 12px */
+                }
+                </style>
+                """, unsafe_allow_html=True)
+        selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
+
         with col2:
+            st.markdown("""
+                <style>
+                .stSelectbox label {
+                color: #3d3d3d;  /* Set label color to #3d3d3d */
+                font-size: 12px;  /* Set label font size to 12px */
+                }
+                </style>
+                """, unsafe_allow_html=True)
             language = st.selectbox("Select Language", list(language_codes.keys()))
         
         # Filter data for the selected city

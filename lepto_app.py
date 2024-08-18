@@ -284,56 +284,44 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Displaying the plot
             st.pyplot(fig)
 
-        # Placeholder for the second visualization in the second row
-        # Population Time Series: Population Count and Population Density from 2008 to 2020
-        with col2:
-            # Extracting unique values for population count and density per year
-            yearly_population_data = city_data[['year', 'pop_count_total', 'pop_density']].drop_duplicates(subset=['year'])
-        
-            # Scaling the population count and density
-            scaler = MinMaxScaler()
-            scaled_values = scaler.fit_transform(yearly_population_data[['pop_count_total', 'pop_density']])
-            scaled_df = pd.DataFrame(scaled_values, columns=['scaled_pop_count', 'scaled_pop_density'])
-            scaled_df['year'] = yearly_population_data['year']
-        
-            # Plotting the data
-            fig, ax1 = plt.subplots(figsize=(10, 6))
-        
-            # Plotting scaled Population Count on the left y-axis
-            ax1.plot(scaled_df['year'], scaled_df['scaled_pop_count'], color='blue', marker='o', label='Population Count')
-            ax1.set_xlabel('Year')
-            ax1.set_ylabel('Population Count', color='blue')
-            ax1.tick_params(axis='y', labelcolor='blue')
-        
-            # Creating a second y-axis for scaled Population Density
-            ax2 = ax1.twinx()
-            ax2.plot(scaled_df['year'], scaled_df['scaled_pop_density'], color='green', marker='o', label='Population Density')
-            ax2.set_ylabel('Population Density', color='green')
-            ax2.tick_params(axis='y', labelcolor='green')
-        
-            # Setting x-axis ticks to represent each year
-            ax1.set_xticks(scaled_df['year'])
-            ax1.set_xticklabels(scaled_df['year'].astype(str), fontsize=8)
-        
-            # Setting y-axis labels back to original values
-            # Getting the original population count and density values for the tick marks
-            original_pop_count_ticks = scaler.inverse_transform([[y, 0] for y in ax1.get_yticks()])[:, 0]
-            original_pop_density_ticks = scaler.inverse_transform([[0, y] for y in ax2.get_yticks()])[:, 1]
-        
-            # Setting the tick labels to the original values
-            ax1.set_yticks(ax1.get_yticks())
-            ax1.set_yticklabels([f'{int(label):,}' for label in original_pop_count_ticks])
-        
-            ax2.set_yticks(ax2.get_yticks())
-            ax2.set_yticklabels([f'{label:.2f}' for label in original_pop_density_ticks])
-        
-            # Adding title and legend
-            fig.suptitle('Population Count and Population Density (2008-2020)', fontsize=14)
-            ax1.legend(loc='upper left')
-            ax2.legend(loc='upper right')
-        
-            # Displaying the plot
-            st.pyplot(fig)
+            # Population Time Series: Population Count and Population Density from 2008 to 2020
+            with col2:
+                # Extracting unique values for population count and density per year
+                yearly_population_data = city_data[['year', 'pop_count_total', 'pop_density']].drop_duplicates(subset=['year'])
+            
+                # Scaling the population count and density
+                scaler = MinMaxScaler()
+                scaled_values = scaler.fit_transform(yearly_population_data[['pop_count_total', 'pop_density']])
+                scaled_df = pd.DataFrame(scaled_values, columns=['scaled_pop_count', 'scaled_pop_density'])
+                scaled_df['year'] = yearly_population_data['year']
+            
+                # Plotting the data
+                fig, ax1 = plt.subplots(figsize=(10, 6))
+            
+                # Plotting scaled Population Count on the left y-axis
+                ax1.plot(scaled_df['year'], scaled_df['scaled_pop_count'], color='blue', marker='o', label='Population Count')
+                ax1.set_xlabel('Year')
+                ax1.set_ylabel('Population Count (Scaled)', color='blue')
+                ax1.tick_params(axis='y', labelcolor='blue')
+            
+                # Creating a second y-axis for scaled Population Density
+                ax2 = ax1.twinx()
+                ax2.plot(scaled_df['year'], scaled_df['scaled_pop_density'], color='green', marker='o', label='Population Density')
+                ax2.set_ylabel('Population Density (Scaled)', color='green')
+                ax2.tick_params(axis='y', labelcolor='green')
+            
+                # Setting x-axis ticks to represent each year
+                ax1.set_xticks(scaled_df['year'])
+                ax1.set_xticklabels(scaled_df['year'].astype(str), fontsize=8)
+            
+                # Adding title and legend
+                fig.suptitle('Scaled Population Count and Population Density (2008-2020)', fontsize=14)
+                ax1.legend(loc='upper left')
+                ax2.legend(loc='upper right')
+            
+                # Displaying the plot
+                st.pyplot(fig)
+            
 
     if __name__ == "__main__":
         main()

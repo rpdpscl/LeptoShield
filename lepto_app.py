@@ -75,7 +75,7 @@ st.markdown("""
     h3 {
         text-decoration: underline;
         font-weight: bold;
-        margin-top: 5px;  /* Reduce space above City Name */
+        margin-top: 0px;  /* Reduce space above City Name */
         font-size: 16px;
         color: #3d3d3d;
     }

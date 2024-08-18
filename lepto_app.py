@@ -65,7 +65,7 @@ st.markdown("""
     h2 {
         color: #ffffff;
         font-size: 25px;
-        margin-top: 5px;
+        margin-top: 10px;
         background-color: #19535b;
         padding: 2px 8px;
         padding-left: 25px;

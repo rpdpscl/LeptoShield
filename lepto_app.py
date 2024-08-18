@@ -257,8 +257,11 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
+        # Layout for 2 columns in the second row
+        col1, col2 = st.columns(2)
+
         # Visualization: Overlay Precipitation (PR) with Average Monthly Cases
-        with col3:
+        with col1:
             # Grouping data by year and month, then calculating the monthly average for case total and PR
             monthly_data = city_data.groupby(['year', 'month']).agg({
                 'case_total': 'sum',
@@ -293,6 +296,10 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         
             # Displaying the plot
             st.pyplot(fig)
+
+        # Placeholder for the second visualization in the second row
+        with col2:
+            st.markdown("### Placeholder for Future Visualization")
 
     def show_chatbot(language):
         # Placeholder for chatbot section

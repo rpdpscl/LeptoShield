@@ -62,7 +62,7 @@ st.markdown("""
     }
     h2 {
         color: #19535b;
-        font-size: 20px;  /* Smaller font size for the description */
+        font-size: 25px;  /* Smaller font size for the description */
         margin-top: 5px;  /* Reduce the space between description and City Insights */
     }
     .stMarkdown {

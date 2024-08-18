@@ -285,8 +285,38 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
 
         # Placeholder for the second visualization in the second row
+        # Population Time Series: Population Count and Population Density from 2008 to 2020
         with col2:
-            st.markdown("### Placeholder for Future Visualization")
+            # Extracting unique values for population count and density per year
+            yearly_population_data = city_data[['year', 'pop_count_total', 'pop_density']].drop_duplicates(subset=['year'])
+        
+            # Plotting the data
+            fig, ax1 = plt.subplots(figsize=(10, 6))
+        
+            # Plotting Population Count on the left y-axis
+            ax1.plot(yearly_population_data['year'], yearly_population_data['pop_count_total'], color='blue', marker='o', label='Population Count')
+            ax1.set_xlabel('Year')
+            ax1.set_ylabel('Population Count', color='blue')
+            ax1.tick_params(axis='y', labelcolor='blue')
+        
+            # Creating a second y-axis for Population Density
+            ax2 = ax1.twinx()
+            ax2.plot(yearly_population_data['year'], yearly_population_data['pop_density'], color='green', marker='o', label='Population Density')
+            ax2.set_ylabel('Population Density', color='green')
+            ax2.tick_params(axis='y', labelcolor='green')
+        
+            # Setting x-axis ticks to represent each year
+            ax1.set_xticks(yearly_population_data['year'])
+            ax1.set_xticklabels(yearly_population_data['year'].astype(str), fontsize=8)
+        
+            # Adding title and legend
+            fig.suptitle('Population Count and Population Density (2008-2020)', fontsize=14)
+            ax1.legend(loc='upper left')
+            ax2.legend(loc='upper right')
+        
+            # Displaying the plot
+            st.pyplot(fig)
+
 
     if __name__ == "__main__":
         main()

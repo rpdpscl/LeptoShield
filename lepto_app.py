@@ -61,9 +61,13 @@ st.markdown("""
         padding-bottom: 1rem;
     }
     h2 {
-        color: #19535b;
-        font-size: 25px;  /* Smaller font size for the description */
+        color: white;
+        font-size: 25px;  /* Font size for the text */
         margin-top: 5px;  /* Reduce the space between description and City Insights */
+        background-color: #f0f0f0;  /* Solid background color */
+        padding: 5px 10px;  /* Padding to create space inside the rectangle */
+        display: inline-block;  /* Ensures the background fits the text */
+        border-radius: 5px;  /* Optional: Rounded corners for the rectangle */
     }
     .stMarkdown {
         margin-bottom: 10px;  /* Adjust margin to reduce space between sections */

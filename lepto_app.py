@@ -199,27 +199,44 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
             st.markdown(f"The total number of cases peaked at **{max_cases}** in **{max_year}**")
 
+
         # Visualization 2: Average Monthly Cases
         with col2:
+            # Grouping data by year and month, then calculating the monthly average
             monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
             monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
-            top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
-            peak_cases = monthly_avg['case_total'].max()
-            top_month_names = ', '.join([['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1] for _, row in top_months.iterrows()])
 
+            # Sorting to find the top 3 months with the highest average cases
+            top_months_sorted = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
+    
+            # Extracting the peak cases and formatting the top month names
+            peak_cases = monthly_avg['case_total'].max()
+            top_month_names = [
+                ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
+                for _, row in top_months_sorted.iterrows()
+            ]
+            
+            # Joining month names into a readable string
+            top_months_str = ", ".join(top_month_names[:-1]) + ", and " + top_month_names[-1]
+        
+            # Plotting the data
             fig, ax = plt.subplots(figsize=fig_size)
-            ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#d9d9d9', markersize = 6)
+            ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#d9d9d9', markersize=6)
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
             ax.set_title('Average Monthly Cases', fontsize=14, color='gray')
-
-            for _, row in top_months.iterrows():
-                ax.plot(row['month'], row['case_total'], marker='o', color='#19535b', markersize = 6)
+        
+            # Highlighting the top 3 months
+            for _, row in top_months_sorted.iterrows():
+                ax.plot(row['month'], row['case_total'], marker='o', color='#19535b', markersize=6)
                 month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
                 ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#19535b', ha='left', fontsize=8)
-
+        
+            # Displaying the plot
             st.pyplot(fig)
-            st.markdown(f"The average monthly cases peaked at {int(peak_cases)} and were highest in {top_month_names}.")
+
+            # Displaying the summary statement with formatted month names
+            st.markdown(f"The average monthly cases peaked at {int(peak_cases)} and were highest in {top_months_str}.")
 
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
         with col3:

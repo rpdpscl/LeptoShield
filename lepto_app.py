@@ -55,6 +55,7 @@ st.markdown("""
         font-size: 12px;  /* Smaller font size for the description */
         line-height: 1.4;
         margin-bottom: 2px;  /* Reduce the space after the description */
+        text-align: center;  /* Center the description text */
     }
     .block-container {
         padding-top: 1rem;
@@ -63,14 +64,18 @@ st.markdown("""
     h2 {
         color: #ffffff;  /* White text color for contrast */
         font-size: 25px;  /* Font size for the text */
-        margin-top: 5px;  /* Reduce the space between description and City Insights */
+        margin-top: 0px;  /* Reduce the space between description and City Insights */
         background-color: #19535b;  /* Solid background color */
-        padding: 2px 5px;  /* Adjust padding to fit the background to the text */
-        display: inline;  /* Inline display ensures the background only covers the text */
-        border-radius: 3px;  /* Optional: Rounded corners for a smoother look */
+        padding: 2px 8px;  /* Adjust padding to fit the background to the text */
+        display: inline-block;  /* Ensures the background only covers the text */
+        border-radius: 3px;  /* Rounded corners for a smoother look */
     }
     .stMarkdown {
-        margin-bottom: 10px;  /* Adjust margin to reduce space between sections */
+        margin-bottom: 0px;  /* Adjust margin to reduce space between sections */
+    }
+    .stSelectbox > div > div {
+        height: 30px;  /* Make the dropdowns thinner */
+        font-size: 14px;  /* Adjust font size inside dropdowns */
     }
     </style>
 """, unsafe_allow_html=True)

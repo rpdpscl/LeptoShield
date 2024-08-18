@@ -141,17 +141,17 @@ if 'lepto_df' in locals() and not lepto_df.empty and 'city_summary' in locals() 
         city_info = city_summary[city_summary['adm3_en'] == selected_city].iloc[0]  # Get city-specific information
         
         # Update placeholders with actual data from city_summary
-        city_area = city_info['city_area']
-        total_population = city_info['pop_count_total']
-        population_density = city_info['pop_density']
-        total_cases = city_info['case_total']
+        city_area = f"{int(city_info['city_area']):,} sq km"
+        total_population = f"{int(city_info['pop_count_total']):,} people"
+        population_density = f"{int(city_info['pop_density']):,} persons per sq km"
+        total_cases = f"{int(city_info['case_total']):,}"
 
         # Display the city-specific information
         st.markdown(f"### {selected_city}")
         st.markdown(f"""
-        <div class='info'><b>Total Area:</b> {city_area} sq km<br>
+        <div class='info'><b>Total Area:</b> {city_area}<br>
         <b>Total Population:</b> {total_population}<br>
-        <b>Population Density:</b> {population_density} persons per sq km<br>
+        <b>Population Density:</b> {population_density}<br>
         <b>Total Number of Recorded Cases:</b> {total_cases} (2008-2020)</div>
         """, unsafe_allow_html=True)
 

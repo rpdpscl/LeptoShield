@@ -270,8 +270,10 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         
         # Dropdown for selecting the feature to overlay
         with col1:
-            feature = st.selectbox(options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density'])
-
+            feature = st.selectbox(
+                '',  # Empty label to remove the text above the dropdown
+                options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']
+            )
         # Layout for 2 columns in the third row
         col1, col2 = st.columns(2)
         

@@ -265,8 +265,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 'heat_index': 'mean',
                 'rh': 'mean',
                 'pr': 'mean',
-                'pop_count_total': 'sum',
-                'pop_density': 'mean'
             }).reset_index()
         
             # Averaging the same month throughout the years
@@ -275,14 +273,12 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 'heat_index': 'mean',
                 'rh': 'mean',
                 'pr': 'mean',
-                'pop_count_total': 'mean',
-                'pop_density': 'mean'
             }).reset_index()
         
             # Scaling the features to overlay on the same scale
             scaler = MinMaxScaler()
-            scaled_features = scaler.fit_transform(monthly_avg[['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']])
-            scaled_df = pd.DataFrame(scaled_features, columns=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density'])
+            scaled_features = scaler.fit_transform(monthly_avg[['heat_index', 'rh', 'pr']])
+            scaled_df = pd.DataFrame(scaled_features, columns=['heat_index', 'rh', 'pr'])
             scaled_df['month'] = monthly_avg['month']
             scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
         
@@ -294,8 +290,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.plot(scaled_df['month'], scaled_df['heat_index'], marker='o', label='Heat Index', color='red', markersize=4)
             ax.plot(scaled_df['month'], scaled_df['rh'], marker='o', label='Relative Humidity (RH)', color='blue', markersize=4)
             ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='green', markersize=4)
-            ax.plot(scaled_df['month'], scaled_df['pop_count_total'], marker='o', label='Population Count', color='purple', markersize=4)
-            ax.plot(scaled_df['month'], scaled_df['pop_density'], marker='o', label='Population Density', color='orange', markersize=4)
             
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))

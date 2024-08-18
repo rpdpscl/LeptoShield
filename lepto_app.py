@@ -76,7 +76,7 @@ st.markdown("""
         text-decoration: underline;
         font-weight: bold;
         margin-top: 0px;  /* Reduce space above City Name */
-        font-size: 16px;
+        font-size: 14px;
         color: #3d3d3d;
     }
     .info {

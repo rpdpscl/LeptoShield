@@ -262,7 +262,9 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.markdown(f"The average monthly cases peaked at **{int(peak_cases)}** and were highest in **{top_months_str}**.")
         with col3:
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
-        
+
+         # Placeholder for Leptospirosis Cases Summary
+        st.markdown("### Leptospirosis Risk Factors")
         # Layout for 2 columns in the second row
         col1, col2 = st.columns(2)
 

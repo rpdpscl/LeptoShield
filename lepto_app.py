@@ -283,7 +283,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             
             # Plotting case total and PR
             ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
-            ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='green', markersize=4)
+            ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='#19535b', markersize=4)
             
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))

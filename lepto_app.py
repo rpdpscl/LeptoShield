@@ -267,6 +267,9 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']
             )
 
+        # Layout for 2 columns in the third row
+        col1, col2 = st.columns(2)
+        
         # Visualization 4: Overlay Selected Feature with Average Monthly Cases
         with col1:
             # Grouping data by year and month, then calculating the monthly average for case total and the selected feature

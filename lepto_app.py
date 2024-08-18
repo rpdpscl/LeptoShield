@@ -39,7 +39,7 @@ st.markdown("""
     }
     .stRadio label, .stSelectbox label {
         color: #3d3d3d;  /* Update color to #3d3d3d */
-        font-size: 12px;  /* Match font size with dropdowns */
+        font-size: 4px;  /* Match font size with dropdowns */
         margin-bottom: 0px;  /* Bring labels closer to the dropdown */
     }
     .css-18e3th9 {

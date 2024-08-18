@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from googletrans import Translator
+from sklearn.preprocessing import MinMaxScaler
 
 # Initialize the translator
 translator = Translator()

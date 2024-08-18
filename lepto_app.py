@@ -47,7 +47,7 @@ st.markdown("""
         color: white !important;
     }
     h1, p, h2 {
-        font-family: 'Arial', sans-serif;
+        font-family: 'Saria';
     }
     h1 {
         color: #19535b !important;

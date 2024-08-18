@@ -64,7 +64,7 @@ st.markdown("""
     h2 {
         color: #ffffff;  /* White text color for contrast */
         font-size: 25px;  /* Font size for the text */
-        margin-top: 0px;  /* Reduce the space between description and City Insights */
+        margin-top: 5px;  /* Reduce the space between description and City Insights */
         background-color: #19535b;  /* Solid background color */
         padding: 2px 8px;  /* Adjust padding to fit the background to the text */
         padding-left: 25px;  /* Add space to the left */

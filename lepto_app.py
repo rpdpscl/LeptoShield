@@ -219,7 +219,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#19535b', ha='left', fontsize=8)
 
             st.pyplot(fig)
-            st.markdown(f"The average monthly cases peaked at {peak_cases} and were highest in {top_month_names}.")
+            st.markdown(f"The average monthly cases peaked at {int(peak_cases)} and were highest in {top_month_names}.")
 
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
         with col3:

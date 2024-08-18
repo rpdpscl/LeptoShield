@@ -52,6 +52,7 @@ st.markdown("""
         color: #19535b !important;
         font-size: 36px;
         margin-top: 0px;  /* Reduced top margin to remove extra space above LeptoShield */
+        marin-bottom: 5px;
         text-align: center;
     }
     p {

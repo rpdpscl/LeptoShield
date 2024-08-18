@@ -39,6 +39,7 @@ st.markdown("""
     }
     .stRadio label, .stSelectbox label {
         color: #19535b;
+        font-size: 14px;  /* Reduced font size for the select labels */
     }
     .css-18e3th9 {
         color: white !important;
@@ -64,7 +65,7 @@ st.markdown("""
     h2 {
         color: #ffffff;  /* White text color for contrast */
         font-size: 25px;  /* Font size for the text */
-        margin-top: 5px;  /* Reduce the space between description and City Insights */
+        margin-top: 5px;  /* Adjust space between description and City Insights */
         background-color: #19535b;  /* Solid background color */
         padding: 2px 8px;  /* Adjust padding to fit the background to the text */
         padding-left: 25px;  /* Add space to the left */
@@ -75,8 +76,8 @@ st.markdown("""
         margin-bottom: 0px;  /* Adjust margin to reduce space between sections */
     }
     .stSelectbox > div > div {
-        height: 40px;  /* Make the dropdowns thicker */
-        font-size: 14px;  /* Adjust font size inside dropdowns */
+        height: 30px;  /* Reduced height to make the dropdowns thinner */
+        font-size: 12px;  /* Reduced font size inside dropdowns */
     }
     </style>
 """, unsafe_allow_html=True)

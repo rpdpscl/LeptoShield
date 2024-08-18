@@ -263,16 +263,14 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         with col3:
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
-         # Placeholder for Leptospirosis Cases Summary
+        # Placeholder for Leptospirosis Cases Summary
         st.markdown("### Leptospirosis Risk Factors")
         # Layout for 2 columns in the second row
         col1, col2 = st.columns(2)
-
+        
         # Dropdown for selecting the feature to overlay
         with col1:
-            feature = st.selectbox(
-                options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']
-            )
+            feature = st.selectbox(options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density'])
 
         # Layout for 2 columns in the third row
         col1, col2 = st.columns(2)

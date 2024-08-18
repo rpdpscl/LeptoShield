@@ -101,8 +101,10 @@ st.markdown("""
 # Load your dataset and handle errors
 try:
     lepto_df = pd.read_csv('lepto_dfclean.csv')
-    if lepto_df.empty:
-        st.error("The dataset is empty. Please check the CSV file.")
+    city_summary = pd.read_csv('/mnt/data/city_summary.csv')
+    
+    if lepto_df.empty or city_summary.empty:
+        st.error("One or more datasets are empty. Please check the CSV files.")
     else:
         lepto_df['date'] = pd.to_datetime(lepto_df['date'])
         lepto_df['month'] = lepto_df['date'].dt.month
@@ -110,13 +112,13 @@ try:
         lepto_df['week'] = lepto_df['date'].dt.isocalendar().week
 
 except FileNotFoundError:
-    st.error("The file 'lepto_dfclean.csv' was not found. Please upload the correct file and ensure the path is correct.")
+    st.error("One or more files were not found. Please upload the correct files and ensure the paths are correct.")
 except pd.errors.EmptyDataError:
-    st.error("The file 'lepto_dfclean.csv' is empty. Please check the contents of the file.")
+    st.error("One or more files are empty. Please check the contents of the files.")
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 
-if 'lepto_df' in locals() and not lepto_df.empty:
+if 'lepto_df' in locals() and not lepto_df.empty and 'city_summary' in locals() and not city_summary.empty:
     def main():
         st.title("LeptoShield")
         # Display the app description and disclaimer
@@ -136,10 +138,22 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             
         # Filter data for the selected city
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
+        city_info = city_summary[city_summary['adm3_en'] == selected_city].iloc[0]  # Get city-specific information
         
-        # Placeholder for city-specific information
-        st.markdown("### City Name (Placeholder)")
-        st.markdown("<div class='info'><b>Total Area:</b> (Placeholder)<br><b>Total Population:</b> Population as of (date) (Placeholder)<br><b>Population Density:</b> Total Pop/Total Area (Placeholder) persons per sqkm<br><b>Total Number of Recorded Cases:</b> (Number) (2008-2020) (Placeholder)</div>", unsafe_allow_html=True)
+        # Update placeholders with actual data from city_summary
+        city_area = city_info['city_area']
+        total_population = city_info['total_population']
+        population_density = city_info['population_density']
+        total_cases = city_info['total_cases']
+
+        # Display the city-specific information
+        st.markdown(f"### {selected_city}")
+        st.markdown(f"""
+        <div class='info'><b>Total Area:</b> {city_area} sq km<br>
+        <b>Total Population:</b> {total_population}<br>
+        <b>Population Density:</b> {population_density} persons per sq km<br>
+        <b>Total Number of Recorded Cases:</b> {total_cases} (2008-2020)</div>
+        """, unsafe_allow_html=True)
 
         # Placeholder for Leptospirosis Cases Summary
         st.markdown("### Leptospirosis Cases Summary")

@@ -247,43 +247,75 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Layout for 2 columns in the third row
         col1, col2 = st.columns(2)
         
-        # Visualization 4: Overlay Selected Feature with Average Monthly Cases
+        # Visualization 4: Overlay Selected Feature with Yearly Aggregation for Specific Features
         with col1:
-            # Grouping data by year and month, then calculating the monthly sum or average for case total and the selected feature
-            aggregation_func = 'sum' if feature == 'pop_count_total' else 'mean'
-            monthly_data = city_data.groupby(['year', 'month']).agg({
-                'case_total': 'sum',
-                feature: aggregation_func
-            }).reset_index()
+            if feature in ['pop_count_total', 'pop_density']:
+                # Grouping data by year for pop_count_total and pop_density
+                yearly_data = city_data.groupby(['year']).agg({
+                    'case_total': 'sum',  # Summing case total for the year
+                    'pop_count_total': 'sum',  # Summing population count for the year
+                    'pop_density': 'mean'  # Averaging population density (already expressed yearly)
+                }).reset_index()
         
-            # Averaging the same month throughout the years
-            monthly_avg = monthly_data.groupby('month').agg({
-                'case_total': 'mean',
-                feature: 'mean'
-            }).reset_index()
+                # Scaling the features to overlay on the same scale
+                scaler = MinMaxScaler()
+                scaled_features = scaler.fit_transform(yearly_data[[feature]])
+                scaled_df = pd.DataFrame(scaled_features, columns=[feature])
+                scaled_df['year'] = yearly_data['year']
+                scaled_df['case_total'] = scaler.fit_transform(yearly_data[['case_total']])
         
-            # Scaling the features to overlay on the same scale
-            scaler = MinMaxScaler()
-            scaled_features = scaler.fit_transform(monthly_avg[[feature]])
-            scaled_df = pd.DataFrame(scaled_features, columns=[feature])
-            scaled_df['month'] = monthly_avg['month']
-            scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
+                # Plotting the data with the scaled selected feature
+                fig, ax = plt.subplots(figsize=fig_size)
         
-            # Plotting the data with the scaled selected feature
-            fig, ax = plt.subplots(figsize=fig_size)
+                # Plotting case total and the selected feature
+                ax.plot(scaled_df['year'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
+                ax.plot(scaled_df['year'], scaled_df[feature], marker='o', label=feature.replace('_', ' ').title(), color='#19535b', markersize=4)
+        
+                # Setting up x-axis labels and title
+                ax.set_xticks(scaled_df['year'])
+                ax.set_xticklabels(scaled_df['year'].astype(str), fontsize=8)
+                ax.set_title(f'Overlay of {feature.replace("_", " ").title()} with Yearly Cases', fontsize=14, color='gray')
+                ax.legend(fontsize=8)
+        
+                # Displaying the plot
+                st.pyplot(fig)
             
-            # Plotting case total and the selected feature
-            ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
-            ax.plot(scaled_df['month'], scaled_df[feature], marker='o', label=feature.replace('_', ' ').title(), color='#19535b', markersize=4)
-            
-            # Setting up x-axis labels and title
-            ax.set_xticks(range(1, 13))
-            ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_title(f'Overlay of {feature.replace("_", " ").title()} with Average Monthly Cases', fontsize=14, color='gray')
-            ax.legend(fontsize=8)
+            else:
+                # Grouping data by year and month, then calculating the monthly average for case total and the selected feature
+                monthly_data = city_data.groupby(['year', 'month']).agg({
+                    'case_total': 'sum',
+                    feature: 'mean'
+                }).reset_index()
         
-            # Displaying the plot
-            st.pyplot(fig)
+                # Averaging the same month throughout the years
+                monthly_avg = monthly_data.groupby('month').agg({
+                    'case_total': 'mean',
+                    feature: 'mean'
+                }).reset_index()
+        
+                # Scaling the features to overlay on the same scale
+                scaler = MinMaxScaler()
+                scaled_features = scaler.fit_transform(monthly_avg[[feature]])
+                scaled_df = pd.DataFrame(scaled_features, columns=[feature])
+                scaled_df['month'] = monthly_avg['month']
+                scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
+        
+                # Plotting the data with the scaled selected feature
+                fig, ax = plt.subplots(figsize=fig_size)
+                
+                # Plotting case total and the selected feature
+                ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
+                ax.plot(scaled_df['month'], scaled_df[feature], marker='o', label=feature.replace('_', ' ').title(), color='#19535b', markersize=4)
+                
+                # Setting up x-axis labels and title
+                ax.set_xticks(range(1, 13))
+                ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
+                ax.set_title(f'Overlay of {feature.replace("_", " ").title()} with Average Monthly Cases', fontsize=14, color='gray')
+                ax.legend(fontsize=8)
+        
+                # Displaying the plot
+                st.pyplot(fig)
+
 
         # Placeholder for the second visualization in the second row
         with col2:

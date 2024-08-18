@@ -316,11 +316,16 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax1.set_xticklabels(scaled_df['year'].astype(str), fontsize=8)
         
             # Setting y-axis labels back to original values
-            ax1.set_yticks(scaler.inverse_transform([[y, 0] for y in ax1.get_yticks()])[:, 0])
-            ax1.set_yticklabels([f'{int(label):,}' for label in yearly_population_data['pop_count_total']])
+            # Getting the original population count and density values for the tick marks
+            original_pop_count_ticks = scaler.inverse_transform([[y, 0] for y in ax1.get_yticks()])[:, 0]
+            original_pop_density_ticks = scaler.inverse_transform([[0, y] for y in ax2.get_yticks()])[:, 1]
         
-            ax2.set_yticks(scaler.inverse_transform([[0, y] for y in ax2.get_yticks()])[:, 1])
-            ax2.set_yticklabels([f'{label:.2f}' for label in yearly_population_data['pop_density']])
+            # Setting the tick labels to the original values
+            ax1.set_yticks(ax1.get_yticks())
+            ax1.set_yticklabels([f'{int(label):,}' for label in original_pop_count_ticks])
+        
+            ax2.set_yticks(ax2.get_yticks())
+            ax2.set_yticklabels([f'{label:.2f}' for label in original_pop_density_ticks])
         
             # Adding title and legend
             fig.suptitle('Population Count and Population Density (2008-2020)', fontsize=14)
@@ -329,8 +334,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         
             # Displaying the plot
             st.pyplot(fig)
-
-
 
     if __name__ == "__main__":
         main()

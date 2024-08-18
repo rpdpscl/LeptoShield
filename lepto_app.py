@@ -256,59 +256,55 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
-# Visualization: Overlay Features with Average Monthly Cases
-with col3:
-    # Grouping data by year and month, then calculating the monthly average for each feature
-    monthly_data = city_data.groupby(['year', 'month']).agg({
-        'case_total': 'sum',
-        'heat_index': 'mean',
-        'rh': 'mean',
-        'pr': 'mean',
-        'pop_count_total': 'sum',
-        'pop_density': 'mean'
-    }).reset_index()
+        # Visualization: Overlay Features with Average Monthly Cases
+        with col3:
+            # Grouping data by year and month, then calculating the monthly average for each feature
+            monthly_data = city_data.groupby(['year', 'month']).agg({
+                'case_total': 'sum',
+                'heat_index': 'mean',
+                'rh': 'mean',
+                'pr': 'mean',
+                'pop_count_total': 'sum',
+                'pop_density': 'mean'
+            }).reset_index()
+        
+            # Averaging the same month throughout the years
+            monthly_avg = monthly_data.groupby('month').agg({
+                'case_total': 'mean',
+                'heat_index': 'mean',
+                'rh': 'mean',
+                'pr': 'mean',
+                'pop_count_total': 'mean',
+                'pop_density': 'mean'
+            }).reset_index()
+        
+            # Scaling the features to overlay on the same scale
+            scaler = MinMaxScaler()
+            scaled_features = scaler.fit_transform(monthly_avg[['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']])
+            scaled_df = pd.DataFrame(scaled_features, columns=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density'])
+            scaled_df['month'] = monthly_avg['month']
+            scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
+        
+            # Plotting the data with scaled features
+            fig, ax = plt.subplots(figsize=fig_size)
+            
+            # Plotting each feature
+            ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
+            ax.plot(scaled_df['month'], scaled_df['heat_index'], marker='o', label='Heat Index', color='red', markersize=4)
+            ax.plot(scaled_df['month'], scaled_df['rh'], marker='o', label='Relative Humidity (RH)', color='blue', markersize=4)
+            ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='green', markersize=4)
+            ax.plot(scaled_df['month'], scaled_df['pop_count_total'], marker='o', label='Population Count', color='purple', markersize=4)
+            ax.plot(scaled_df['month'], scaled_df['pop_density'], marker='o', label='Population Density', color='orange', markersize=4)
+            
+            # Setting up x-axis labels and title
+            ax.set_xticks(range(1, 13))
+            ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
+            ax.set_title('Overlay of Features with Average Monthly Cases', fontsize=14, color='gray')
+            ax.legend(fontsize=8)
+        
+            # Displaying the plot
+            st.pyplot(fig)
 
-    # Averaging the same month throughout the years
-    monthly_avg = monthly_data.groupby('month').agg({
-        'case_total': 'mean',
-        'heat_index': 'mean',
-        'rh': 'mean',
-        'pr': 'mean',
-        'pop_count_total': 'mean',
-        'pop_density': 'mean'
-    }).reset_index()
-
-    # Scaling the features to overlay on the same scale
-    scaler = MinMaxScaler()
-    scaled_features = scaler.fit_transform(monthly_avg[['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']])
-    scaled_df = pd.DataFrame(scaled_features, columns=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density'])
-    scaled_df['month'] = monthly_avg['month']
-    scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
-
-    # Plotting the data with scaled features
-    fig, ax = plt.subplots(figsize=fig_size)
-    
-    # Plotting each feature
-    ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
-    ax.plot(scaled_df['month'], scaled_df['heat_index'], marker='o', label='Heat Index', color='red', markersize=4)
-    ax.plot(scaled_df['month'], scaled_df['rh'], marker='o', label='Relative Humidity (RH)', color='blue', markersize=4)
-    ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='green', markersize=4)
-    ax.plot(scaled_df['month'], scaled_df['pop_count_total'], marker='o', label='Population Count', color='purple', markersize=4)
-    ax.plot(scaled_df['month'], scaled_df['pop_density'], marker='o', label='Population Density', color='orange', markersize=4)
-    
-    # Setting up x-axis labels and title
-    ax.set_xticks(range(1, 13))
-    ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-    ax.set_title('Overlay of Features with Average Monthly Cases', fontsize=14, color='gray')
-    ax.legend(fontsize=8)
-
-    # Displaying the plot
-    st.pyplot(fig)
-
-
-
-
-    
     def show_chatbot(language):
         # Placeholder for chatbot section
         chatbot_text = "This is the chatbot section. You can ask questions about leptospirosis here."

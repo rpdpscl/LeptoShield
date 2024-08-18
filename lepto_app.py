@@ -284,12 +284,13 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Displaying the plot
             st.pyplot(fig)
 
+        # Ensure the 'year' column is extracted from the 'date' column in lepto_df
+        lepto_df['year'] = lepto_df['date'].dt.year
+        
         # Population Time Series: Population Count and Population Density from 2008 to 2020
-        # Ensure the 'year' column is extracted from the 'date' column
-        city_data['year'] = city_data['date'].dt.year
         with col2:
-            # Extracting unique values for population count and density per year
-            yearly_population_data = city_data[['year', 'pop_count_total', 'pop_density']].drop_duplicates(subset=['year'])
+            # Extracting unique values for population count and density per year from lepto_df
+            yearly_population_data = lepto_df[['year', 'pop_count_total', 'pop_density']].drop_duplicates(subset=['year'])
         
             # Scaling the population count and density
             scaler = MinMaxScaler()

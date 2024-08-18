@@ -271,7 +271,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Dropdown for selecting the feature to overlay
         with col1:
             feature = st.selectbox(
-                'Select Feature to Overlay with Average Monthly Cases',
                 options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']
             )
 

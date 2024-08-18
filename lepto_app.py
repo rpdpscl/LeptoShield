@@ -78,7 +78,7 @@ st.markdown("""
     }
     .stSelectbox > div > div {
         height: 35px;  /* Slightly increased height to prevent text from being cropped */
-        font-size: 14px;  /* Consistent font size inside dropdowns */
+        font-size: 12px;  /* Consistent font size inside dropdowns */
     }
     </style>
 """, unsafe_allow_html=True)

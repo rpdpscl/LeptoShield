@@ -178,8 +178,15 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         with col1:
             yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
 
+            # Find the year with the maximum number of cases
+            max_year = yearly_cases.loc[yearly_cases['case_total'].idxmax(), 'year']
+
             fig, ax = plt.subplots(figsize=fig_size)
-            ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
+
+            # Color the bars based on whether they are the maximum year or not
+            bar_colors = ['#19535b' if year == max_year else '#d9d9d9' for year in yearly_cases['year']]
+    
+            ax.bar(yearly_cases['year'], yearly_cases['case_total'], color=bar_colors)
             ax.set_xticks(range(2008, 2021))
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
             ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')

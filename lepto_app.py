@@ -39,45 +39,41 @@ st.markdown("""
     }
     .stRadio label, .stSelectbox label {
         color: #19535b;
-        font-size: 14px;  /* Reduced font size for the select labels */
+        font-size: 14px;  /* Consistent font size for labels */
+        margin-bottom: 0px;  /* Bring labels closer to the dropdowns */
     }
     .css-18e3th9 {
         color: white !important;
     }
+    h1, p, h2 {
+        font-family: 'Arial', sans-serif;
+    }
     h1 {
         color: #19535b !important;
-        font-family: 'Arial', sans-serif;
-        font-size: 36px;  /* Larger font size for the LeptoShield title */
+        font-size: 36px;
         margin-top: 20px;
-        text-align: center;  /* Center the title */
+        text-align: center;
     }
     p {
         color: #19535b;
-        font-size: 12px;  /* Smaller font size for the description */
+        font-size: 12px;
         line-height: 1.4;
-        margin-bottom: 2px;  /* Reduce the space after the description */
-        text-align: center;  /* Center the description text */
-    }
-    .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        margin-bottom: 2px;
+        text-align: center;
     }
     h2 {
-        color: #ffffff;  /* White text color for contrast */
-        font-size: 25px;  /* Font size for the text */
-        margin-top: 5px;  /* Adjust space between description and City Insights */
-        background-color: #19535b;  /* Solid background color */
-        padding: 2px 8px;  /* Adjust padding to fit the background to the text */
-        padding-left: 25px;  /* Add space to the left */
-        display: inline-block;  /* Ensures the background only covers the text */
-        border-radius: 3px;  /* Rounded corners for a smoother look */
-    }
-    .stMarkdown {
-        margin-bottom: 0px;  /* Adjust margin to reduce space between sections */
+        color: #ffffff;
+        font-size: 25px;
+        margin-top: 5px;
+        background-color: #19535b;
+        padding: 2px 8px;
+        padding-left: 25px;
+        display: inline-block;
+        border-radius: 3px;
     }
     .stSelectbox > div > div {
-        height: 30px;  /* Reduced height to make the dropdowns thinner */
-        font-size: 12px;  /* Reduced font size inside dropdowns */
+        height: 35px;  /* Slightly increased height to prevent text from being cropped */
+        font-size: 14px;  /* Consistent font size inside dropdowns */
     }
     </style>
 """, unsafe_allow_html=True)

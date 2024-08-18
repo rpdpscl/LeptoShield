@@ -174,7 +174,18 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Set uniform figure size
         fig_size = (4, 4)
 
-        # Visualization 1: Average Monthly Cases
+        # Visualization 1: Total Number of Cases per Year (2008-2020)
+        with col2:
+            yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
+
+            fig, ax = plt.subplots(figsize=fig_size)
+            ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
+            ax.set_xticks(range(2008, 2021))
+            ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
+            ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
+            st.pyplot(fig)
+            
+        # Visualization 2: Average Monthly Cases
         with col1:
             monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
             monthly_avg = monthly_data.groupby('month')['case_total'].mean().reset_index()
@@ -191,17 +202,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
                 ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)
 
-            st.pyplot(fig)
-
-        # Visualization 2: Total Number of Cases per Year (2008-2020)
-        with col2:
-            yearly_cases = city_data.groupby('year')['case_total'].sum().reset_index()
-
-            fig, ax = plt.subplots(figsize=fig_size)
-            ax.bar(yearly_cases['year'], yearly_cases['case_total'], color='#19535b')
-            ax.set_xticks(range(2008, 2021))
-            ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
-            ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
         
         # Visualization 3: Weeks with Cases vs. Weeks without Cases

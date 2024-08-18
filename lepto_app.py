@@ -279,7 +279,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_title(f'Overlay of {feature.replace("_", " ").title()} with Average Monthly Cases', fontsize=14, color='gray')
+            ax.set_title(f'Cases vs {feature.replace("_", " ").title()}', fontsize=14, color='gray')
             ax.legend(fontsize=8)
         
             # Displaying the plot

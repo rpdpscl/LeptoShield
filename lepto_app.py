@@ -61,13 +61,13 @@ st.markdown("""
         padding-bottom: 1rem;
     }
     h2 {
-        color: white;
+        color: #ffffff;  /* White text color for contrast */
         font-size: 25px;  /* Font size for the text */
         margin-top: 5px;  /* Reduce the space between description and City Insights */
         background-color: #19535b;  /* Solid background color */
-        padding: 5px 8px;  /* Padding to create space inside the rectangle */
-        display: inline-block;  /* Ensures the background fits the text */
-        border-radius: 5px;  /* Optional: Rounded corners for the rectangle */
+        padding: 2px 5px;  /* Adjust padding to fit the background to the text */
+        display: inline;  /* Inline display ensures the background only covers the text */
+        border-radius: 3px;  /* Optional: Rounded corners for a smoother look */
     }
     .stMarkdown {
         margin-bottom: 10px;  /* Adjust margin to reduce space between sections */

@@ -38,9 +38,12 @@ st.markdown("""
         color: white;
     }
     .stRadio label, .stSelectbox label {
-        color: #3d3d3d;  /* Update color to #3d3d3d */
-        font-size: 12px;  /* Match font size with dropdowns */
-        margin-bottom: 0px;  /* Bring labels closer to the dropdown */
+        color: #3d3d3d;  /* Set label color */
+        font-size: 12px;  /* Set consistent font size */
+        margin-bottom: 0px;
+    }
+    .stSelectbox {
+        margin-top: 0px;
     }
     .css-18e3th9 {
         color: white !important;
@@ -51,8 +54,7 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-size: 36px;
-        margin-top: -5px;  /* Reduced top margin to remove extra space above LeptoShield */
-        margin-bottom: 0px;
+        margin-top: -5px;  /* Removed space above LeptoShield */
         text-align: center;
     }
     p {
@@ -75,13 +77,13 @@ st.markdown("""
     h3 {
         text-decoration: underline;
         font-weight: bold;
-        margin-top: 10px;  /* Reduce space above City Name */
         font-size: 16px;
+        margin-top: 10px;  /* Space adjustment */
         color: #3d3d3d;
     }
     .info {
         font-size: 14px;
-        margin-top: -10px;  /* Reduce space between dropdowns and city info */
+        margin-top: -10px;  /* Reduced space between dropdowns and city info */
         margin-bottom: 10px;
         line-height: 1.6;
         color: #3d3d3d; /* Matching the color of the dropdowns */
@@ -90,8 +92,9 @@ st.markdown("""
         margin-bottom: 0px;
     }
     .stSelectbox > div > div {
-        height: 35px;  /* Slightly increased height to prevent text from being cropped */
-        font-size: 12px;  /* Consistent font size inside dropdowns */
+        height: 35px;  /* Adjusted height to fit text */
+        font-size: 12px;  /* Ensure font size is consistent */
+        color: #3d3d3d; /* Matching color with label */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -157,9 +160,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
         with col2:
             language = st.selectbox("Select Language", list(language_codes.keys()))
-        
-        # Filter data for the selected city
-        city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
         
         # Placeholder for city-specific information
         st.markdown("### City Name (Placeholder)")

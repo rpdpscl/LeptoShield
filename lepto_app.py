@@ -54,7 +54,6 @@ st.markdown("""
         color: #3d3d3d;
         font-size: 12px;  /* Smaller font size for the description */
         line-height: 1.4;
-        opacity: 0.9;  /* Slightly lower opacity for the description */
         margin-bottom: 10px;  /* Reduce the space after the description */
     }
     .block-container {

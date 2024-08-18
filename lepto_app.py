@@ -92,7 +92,7 @@ st.markdown("""
     .stSelectbox > div > div {
         background-color: #d9d9d9;  /* Set dropdown background color */
         color: #3d3d3d;  /* Set dropdown text color */
-        height: 35px;  /* Slightly increased height to prevent text from being cropped */
+        height: 30px;  /* Slightly increased height to prevent text from being cropped */
         font-size: 12px;  /* Consistent font size inside dropdowns */
         border: none;  /* Remove the border */
         box-shadow: none;  /* Remove any shadow that may appear as a border */

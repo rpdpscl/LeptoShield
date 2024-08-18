@@ -61,7 +61,8 @@ st.markdown("""
         padding-bottom: 1rem;
     }
     h2 {
-        margin-top: 20px;  /* Reduce the space between description and City Insights */
+        color: #19535b;
+        margin-top: 10px;  /* Reduce the space between description and City Insights */
     }
     .stMarkdown {
         margin-bottom: 10px;  /* Adjust margin to reduce space between sections */

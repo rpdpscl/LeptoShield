@@ -60,7 +60,7 @@ st.markdown("""
         color: #19535b;
         font-size: 10px;
         line-height: 1.4;
-        margin-bottom: 2px;
+        margin-bottom: 5px;
         text-align: center;
     }
     h2 {

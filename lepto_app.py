@@ -260,38 +260,46 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Layout for 2 columns in the second row
         col1, col2 = st.columns(2)
 
-        # Visualization 4: Overlay Precipitation (PR) with Average Monthly Cases
+        # Dropdown for selecting the feature to overlay
         with col1:
-            # Grouping data by year and month, then calculating the monthly average for case total and PR
+            feature = st.selectbox(
+                'Select Feature to Overlay with Average Monthly Cases',
+                options=['heat_index', 'rh', 'pr', 'pop_count_total', 'pop_density']
+            )
+
+        # Visualization 4: Overlay Selected Feature with Average Monthly Cases
+        with col1:
+            # Grouping data by year and month, then calculating the monthly average for case total and the selected feature
+            aggregation_func = 'sum' if feature == 'pop_count_total' else 'mean'
             monthly_data = city_data.groupby(['year', 'month']).agg({
                 'case_total': 'sum',
-                'pr': 'mean'
+                feature: aggregation_func
             }).reset_index()
         
             # Averaging the same month throughout the years
             monthly_avg = monthly_data.groupby('month').agg({
                 'case_total': 'mean',
-                'pr': 'mean'
+                feature: 'mean'
             }).reset_index()
         
             # Scaling the features to overlay on the same scale
             scaler = MinMaxScaler()
-            scaled_features = scaler.fit_transform(monthly_avg[['pr']])
-            scaled_df = pd.DataFrame(scaled_features, columns=['pr'])
+            scaled_features = scaler.fit_transform(monthly_avg[[feature]])
+            scaled_df = pd.DataFrame(scaled_features, columns=[feature])
             scaled_df['month'] = monthly_avg['month']
             scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
         
-            # Plotting the data with scaled PR
+            # Plotting the data with the scaled selected feature
             fig, ax = plt.subplots(figsize=fig_size)
             
-            # Plotting case total and PR
+            # Plotting case total and the selected feature
             ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
-            ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='#19535b', markersize=4)
+            ax.plot(scaled_df['month'], scaled_df[feature], marker='o', label=feature.replace('_', ' ').title(), color='#19535b', markersize=4)
             
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_title('Ave Monthly Precipitation vs Average Monthly Cases', fontsize=14, color='gray')
+            ax.set_title(f'Overlay of {feature.replace("_", " ").title()} with Average Monthly Cases', fontsize=14, color='gray')
             ax.legend(fontsize=8)
         
             # Displaying the plot

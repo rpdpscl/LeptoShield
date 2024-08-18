@@ -67,6 +67,7 @@ st.markdown("""
         margin-top: 0px;  /* Reduce the space between description and City Insights */
         background-color: #19535b;  /* Solid background color */
         padding: 2px 8px;  /* Adjust padding to fit the background to the text */
+        padding-left: 15px;  /* Add space to the left */
         display: inline-block;  /* Ensures the background only covers the text */
         border-radius: 3px;  /* Rounded corners for a smoother look */
     }
@@ -74,7 +75,7 @@ st.markdown("""
         margin-bottom: 0px;  /* Adjust margin to reduce space between sections */
     }
     .stSelectbox > div > div {
-        height: 30px;  /* Make the dropdowns thinner */
+        height: 40px;  /* Make the dropdowns thicker */
         font-size: 14px;  /* Adjust font size inside dropdowns */
     }
     </style>

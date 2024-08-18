@@ -257,18 +257,18 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
-        # Visualization: Overlay Features with Average Monthly Cases
+        # Visualization: Overlay Precipitation (PR) with Average Monthly Cases
         with col3:
-            # Grouping data by year and month, then calculating the monthly average for each feature
+            # Grouping data by year and month, then calculating the monthly average for case total and PR
             monthly_data = city_data.groupby(['year', 'month']).agg({
                 'case_total': 'sum',
-                'pr': 'mean',
+                'pr': 'mean'
             }).reset_index()
         
             # Averaging the same month throughout the years
             monthly_avg = monthly_data.groupby('month').agg({
                 'case_total': 'mean',
-                'pr': 'mean',
+                'pr': 'mean'
             }).reset_index()
         
             # Scaling the features to overlay on the same scale
@@ -278,19 +278,17 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             scaled_df['month'] = monthly_avg['month']
             scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
         
-            # Plotting the data with scaled features
+            # Plotting the data with scaled PR
             fig, ax = plt.subplots(figsize=fig_size)
             
-            # Plotting each feature
+            # Plotting case total and PR
             ax.plot(scaled_df['month'], scaled_df['case_total'], marker='o', label='Case Total', color='#d9d9d9', markersize=6)
-            ax.plot(scaled_df['month'], scaled_df['heat_index'], marker='o', label='Heat Index', color='red', markersize=4)
-            ax.plot(scaled_df['month'], scaled_df['rh'], marker='o', label='Relative Humidity (RH)', color='blue', markersize=4)
             ax.plot(scaled_df['month'], scaled_df['pr'], marker='o', label='Precipitation (PR)', color='green', markersize=4)
             
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_title('Overlay of Features with Average Monthly Cases', fontsize=14, color='gray')
+            ax.set_title('Overlay of Precipitation (PR) with Average Monthly Cases', fontsize=14, color='gray')
             ax.legend(fontsize=8)
         
             # Displaying the plot

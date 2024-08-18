@@ -82,7 +82,7 @@ st.markdown("""
     .info {
         font-size: 14px;
         margin-top: -10px;  /* Reduce space between dropdowns and city info */
-        margin-bottom: 5px;
+        margin-bottom: 0px;
         line-height: 1.6;
         color: #3d3d3d; /* Matching the color of the dropdowns */
     }

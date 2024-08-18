@@ -134,7 +134,9 @@ if 'lepto_df' in locals() and not lepto_df.empty and 'city_summary' in locals() 
         # Arrange the selectors side by side without labels
         col1, col2 = st.columns(2)
         with col1:
-            selected_city = st.selectbox("", lepto_df['adm3_en'].unique())  # Removed label
+            #Alphabetize the city names before passing them to the selectbox
+            sorted_cities = sorted(lepto_df['adm3_en'].unique())
+            selected_city = st.selectbox("", sorted_cities)
             
         # Filter data for the selected city
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]

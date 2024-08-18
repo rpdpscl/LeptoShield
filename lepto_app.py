@@ -39,21 +39,21 @@ st.markdown("""
     }
     .stRadio label, .stSelectbox label {
         color: #19535b;
-        font-size: 2px;  /* Further reduced font size for the select labels */
-        margin-bottom: 0px;  /* Bring labels closer to the dropdowns */
+        font-size: 12px;
+        margin-bottom: 0px;
         margin-top: 10px;
     }
     .css-18e3th9 {
         color: white !important;
     }
     h1, p, h2 {
-        font-family: 'Saria', sans-serif;
+        font-family: 'Arial', sans-serif;
     }
     h1 {
         color: #19535b !important;
         font-size: 36px;
         margin-top: -5px;  /* Reduced top margin to remove extra space above LeptoShield */
-        marin-bottom: 0px;
+        margin-bottom: 0px;
         text-align: center;
     }
     p {
@@ -72,6 +72,17 @@ st.markdown("""
         padding-left: 25px;
         display: inline-block;
         border-radius: 3px;
+    }
+    h3 {
+        text-decoration: underline;
+        font-weight: bold;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+    .info {
+        font-size: 14px;
+        margin-bottom: 10px;
+        line-height: 1.6;
     }
     .stMarkdown {
         margin-bottom: 0px;
@@ -144,19 +155,14 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             selected_city = st.selectbox("Select a City", lepto_df['adm3_en'].unique())
         with col2:
             language = st.selectbox("Select Language", list(language_codes.keys()))
-        st.sidebar.title("Navigation")
-        section = st.sidebar.radio("Go to", ["City Insights", "QnA Chatbot", "Medical Facility Locator"])
         
-        if section == "City Insights":
-            show_city_insights(selected_city, language)
-        elif section == "QnA Chatbot":
-            show_chatbot(language)
-        elif section == "Medical Facility Locator":
-            show_locator(language)
-            
-    def show_city_insights(selected_city, language):
-        city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
+        # Placeholder for city-specific information
+        st.markdown("### City Name (Placeholder)")
+        st.markdown("<div class='info'><b>Total Area:</b> (Placeholder)<br><b>Total Population:</b> Population as of (date) (Placeholder)<br><b>Population Density:</b> Total Pop/Total Area (Placeholder) persons per sqkm<br><b>Total Number of Recorded Cases:</b> (Number) (2008-2020) (Placeholder)</div>", unsafe_allow_html=True)
 
+        # Placeholder for Leptospirosis Cases Summary
+        st.markdown("### Leptospirosis Cases Summary")
+        
         # Layout for 3 columns
         col1, col2, col3 = st.columns(3)
 

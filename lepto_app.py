@@ -94,7 +94,10 @@ st.markdown("""
         color: #3d3d3d;  /* Set dropdown text color */
         height: 35px;  /* Slightly increased height to prevent text from being cropped */
         font-size: 12px;  /* Consistent font size inside dropdowns */
+        border: none;  /* Remove the border */
+        box-shadow: none;  /* Remove any shadow that may appear as a border */
     }
+
     </style>
 """, unsafe_allow_html=True)
 

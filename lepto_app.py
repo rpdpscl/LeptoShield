@@ -260,7 +260,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Layout for 2 columns in the second row
         col1, col2 = st.columns(2)
 
-        # Visualization: Overlay Precipitation (PR) with Average Monthly Cases
+        # Visualization 4: Overlay Precipitation (PR) with Average Monthly Cases
         with col1:
             # Grouping data by year and month, then calculating the monthly average for case total and PR
             monthly_data = city_data.groupby(['year', 'month']).agg({
@@ -291,7 +291,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_title('Overlay of Precipitation (PR) with Average Monthly Cases', fontsize=14, color='gray')
+            ax.set_title('Ave Monthly Precipitation vs Average Monthly Cases', fontsize=14, color='gray')
             ax.legend(fontsize=8)
         
             # Displaying the plot

@@ -39,7 +39,7 @@ st.markdown("""
     }
     .stRadio label, .stSelectbox label {
         color: #19535b;
-        font-size: 10px;  /* Further reduced font size for the select labels */
+        font-size: 5px;  /* Further reduced font size for the select labels */
         margin-bottom: 0px;  /* Bring labels closer to the dropdowns */
     }
     .css-18e3th9 {
@@ -51,12 +51,12 @@ st.markdown("""
     h1 {
         color: #19535b !important;
         font-size: 36px;
-        margin-top: 5px;  /* Reduced top margin to remove extra space above LeptoShield */
+        margin-top: 0px;  /* Reduced top margin to remove extra space above LeptoShield */
         text-align: center;
     }
     p {
         color: #19535b;
-        font-size: 12px;
+        font-size: 10px;
         line-height: 1.4;
         margin-bottom: 2px;
         text-align: center;

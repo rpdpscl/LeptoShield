@@ -156,6 +156,9 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         with col2:
             language = st.selectbox("Select Language", list(language_codes.keys()))
         
+        # Filter data for the selected city
+        city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
+        
         # Placeholder for city-specific information
         st.markdown("### City Name (Placeholder)")
         st.markdown("<div class='info'><b>Total Area:</b> (Placeholder)<br><b>Total Population:</b> Population as of (date) (Placeholder)<br><b>Population Density:</b> Total Pop/Total Area (Placeholder) persons per sqkm<br><b>Total Number of Recorded Cases:</b> (Number) (2008-2020) (Placeholder)</div>", unsafe_allow_html=True)

@@ -40,7 +40,7 @@ st.markdown("""
     .stRadio label, .stSelectbox label {
         color: #3d3d3d;  /* Update color to #3d3d3d */
         font-size: 12px;  /* Match font size with dropdowns */
-        margin-bottom: 5px;  /* Reduce space between label and dropdown */
+        margin-bottom: 0px;  /* Bring labels closer to the dropdown */
     }
     .css-18e3th9 {
         color: white !important;
@@ -81,6 +81,7 @@ st.markdown("""
     }
     .info {
         font-size: 14px;
+        margin-top: -10px;  /* Reduce space between dropdowns and city info */
         margin-bottom: 10px;
         line-height: 1.6;
         color: #3d3d3d; /* Matching the color of the dropdowns */

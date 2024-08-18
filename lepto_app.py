@@ -1,11 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from googletrans import Translator
 from sklearn.preprocessing import MinMaxScaler
-
-# Initialize the translator
-translator = Translator()
 
 # Set the page configuration (title only, no icon)
 st.set_page_config(page_title="LeptoShield", layout="centered")
@@ -120,30 +116,6 @@ except pd.errors.EmptyDataError:
 except Exception as e:
     st.error(f"An unexpected error occurred: {e}")
 
-# Define available dialects and their corresponding Googletrans language codes
-language_codes = {
-    "English": "en",
-    "Tagalog": "tl",
-    "Cebuano (Bisaya)": "ceb"
-}
-
-# Add a function to translate the text based on selected language
-def translate_text(text, language):
-    try:
-        lang_code = language_codes.get(language)
-        if lang_code:
-            if lang_code == "en":  # No translation needed for English
-                return text
-            translated = translator.translate(text, dest=lang_code)
-            return translated.text
-        else:
-            st.warning(f"Translation for {language} is not supported. Defaulting to Tagalog.")
-            translated = translator.translate(text, dest='tl')  # Use Tagalog as fallback
-            return translated.text
-    except Exception as e:
-        st.warning(f"Translation error: {e}")
-        return text
-
 if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("LeptoShield")
@@ -162,7 +134,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         with col1:
             selected_city = st.selectbox("", lepto_df['adm3_en'].unique())  # Removed label
         with col2:
-            language = st.selectbox("", list(language_codes.keys()))  # Removed label
+            language = st.selectbox("", ["English", "Tagalog", "Cebuano (Bisaya)"])  # Removed label
         
         # Filter data for the selected city
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
@@ -318,18 +290,6 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         # Placeholder for the second visualization in the second row
         with col2:
             st.markdown("### Placeholder for Future Visualization")
-
-    def show_chatbot(language):
-        # Placeholder for chatbot section
-        chatbot_text = "This is the chatbot section. You can ask questions about leptospirosis here."
-        translated_chatbot_text = translate_text(chatbot_text, language)
-        st.write(translated_chatbot_text)
-
-    def show_locator(language):
-        # Placeholder for medical facility locator section
-        locator_text = "This section will help you locate the nearest medical facilities."
-        translated_locator_text = translate_text(locator_text, language)
-        st.write(translated_locator_text)
 
     if __name__ == "__main__":
         main()

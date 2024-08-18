@@ -133,9 +133,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         col1, col2 = st.columns(2)
         with col1:
             selected_city = st.selectbox("", lepto_df['adm3_en'].unique())  # Removed label
-        with col2:
-            language = st.selectbox("", ["English", "Tagalog", "Cebuano (Bisaya)"])  # Removed label
-        
+            
         # Filter data for the selected city
         city_data = lepto_df[lepto_df['adm3_en'] == selected_city]
         

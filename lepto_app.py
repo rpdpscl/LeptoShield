@@ -249,7 +249,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         
         # Visualization 4: Overlay Selected Feature with Average Monthly Cases
         with col1:
-            # Grouping data by year and month, then calculating the monthly average for case total and the selected feature
+            # Grouping data by year and month, then calculating the monthly sum or average for case total and the selected feature
             aggregation_func = 'sum' if feature == 'pop_count_total' else 'mean'
             monthly_data = city_data.groupby(['year', 'month']).agg({
                 'case_total': 'sum',
@@ -279,7 +279,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Setting up x-axis labels and title
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
-            ax.set_title(f'Cases vs {feature.replace("_", " ").title()}', fontsize=10, color='gray')
+            ax.set_title(f'Overlay of {feature.replace("_", " ").title()} with Average Monthly Cases', fontsize=14, color='gray')
             ax.legend(fontsize=8)
         
             # Displaying the plot

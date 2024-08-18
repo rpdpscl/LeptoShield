@@ -38,10 +38,9 @@ st.markdown("""
         color: white;
     }
     .stRadio label, .stSelectbox label {
-        color: #19535b;
-        font-size: 12px;
-        margin-bottom: 0px;
-        margin-top: 10px;
+        color: #3d3d3d;  /* Update color to #3d3d3d */
+        font-size: 12px;  /* Match font size with dropdowns */
+        margin-bottom: 5px;  /* Reduce space between label and dropdown */
     }
     .css-18e3th9 {
         color: white !important;
@@ -76,7 +75,7 @@ st.markdown("""
     h3 {
         text-decoration: underline;
         font-weight: bold;
-        margin-top: 20px;
+        margin-top: 10px;  /* Reduce space above City Name */
         font-size: 16px;
         color: #3d3d3d;
     }
@@ -184,7 +183,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_xticklabels([str(year)[-2:] for year in range(2008, 2021)], fontsize=8)
             ax.set_title('Total Cases Per Year (2008-2020)', fontsize=14, color='gray')
             st.pyplot(fig)
-            
+
         # Visualization 2: Average Monthly Cases
         with col2:
             monthly_data = city_data.groupby(['year', 'month'])['case_total'].sum().reset_index()
@@ -203,7 +202,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
                 ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)
 
             st.pyplot(fig)
-        
+
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
         with col3:
             case_counts = city_data['case_total'].apply(lambda x: 'With Case' if x > 0 else 'Without Case').value_counts()

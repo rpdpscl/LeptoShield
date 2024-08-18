@@ -262,23 +262,19 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             # Grouping data by year and month, then calculating the monthly average for each feature
             monthly_data = city_data.groupby(['year', 'month']).agg({
                 'case_total': 'sum',
-                'heat_index': 'mean',
-                'rh': 'mean',
                 'pr': 'mean',
             }).reset_index()
         
             # Averaging the same month throughout the years
             monthly_avg = monthly_data.groupby('month').agg({
                 'case_total': 'mean',
-                'heat_index': 'mean',
-                'rh': 'mean',
                 'pr': 'mean',
             }).reset_index()
         
             # Scaling the features to overlay on the same scale
             scaler = MinMaxScaler()
-            scaled_features = scaler.fit_transform(monthly_avg[['heat_index', 'rh', 'pr']])
-            scaled_df = pd.DataFrame(scaled_features, columns=['heat_index', 'rh', 'pr'])
+            scaled_features = scaler.fit_transform(monthly_avg[['pr']])
+            scaled_df = pd.DataFrame(scaled_features, columns=['pr'])
             scaled_df['month'] = monthly_avg['month']
             scaled_df['case_total'] = scaler.fit_transform(monthly_avg[['case_total']])
         

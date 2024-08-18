@@ -122,6 +122,8 @@ if 'lepto_df' in locals() and not lepto_df.empty:
         *Disclaimer: For informational purposes only. Always consult with a healthcare professional for medical advice, diagnosis, or treatment.*
         """
         st.markdown(description)
+
+        st.header("City Insights")
         
         # Arrange the selectors side by side
         col1, col2 = st.columns(2)

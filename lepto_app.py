@@ -199,15 +199,15 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             top_months = monthly_avg.sort_values(by='case_total', ascending=False).head(3)
 
             fig, ax = plt.subplots(figsize=fig_size)
-            ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#19535b')
+            ax.plot(monthly_avg['month'], monthly_avg['case_total'], marker='o', color='#d9d9d9', markersize = 6)
             ax.set_xticks(range(1, 13))
             ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], fontsize=8)
             ax.set_title('Average Monthly Cases', fontsize=14, color='gray')
 
             for _, row in top_months.iterrows():
-                ax.plot(row['month'], row['case_total'], marker='o', color='#1477ea', markersize=8)
+                ax.plot(row['month'], row['case_total'], marker='o', color='#19535b', markersize = 6)
                 month_abbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][int(row['month']) - 1]
-                ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#1477ea', ha='left', fontsize=8)
+                ax.text(row['month'] + 0.4, row['case_total'], month_abbr, color='#19535b', ha='left', fontsize=8)
 
             st.pyplot(fig)
 

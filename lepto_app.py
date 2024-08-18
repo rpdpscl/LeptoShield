@@ -257,6 +257,18 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
             st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
+        # Layout for 3 columns
+        col1, col2, col3 = st.columns(3)
+
+        # Set uniform figure size
+        fig_size = (4, 4)
+        with col1:
+            st.markdown(f"The total number of cases peaked at **{max_cases}** in **{max_year}**")
+        with col2:
+            st.markdown(f"The average monthly cases peaked at **{int(peak_cases)}** and were highest in **{top_months_str}**.")
+        with col3:
+            st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
+        
         # Layout for 2 columns in the second row
         col1, col2 = st.columns(2)
 

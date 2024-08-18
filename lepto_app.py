@@ -236,7 +236,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             st.pyplot(fig)
 
             # Displaying the summary statement with formatted month names
-            st.markdown(f"The average monthly cases peaked at {int(peak_cases)} and were highest in {top_months_str}.")
+            st.markdown(f"The average monthly cases peaked at **{int(peak_cases)}** and were highest in **{top_months_str}**.")
 
         # Visualization 3: Weeks with Cases vs. Weeks without Cases
         with col3:

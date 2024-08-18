@@ -46,7 +46,7 @@ st.markdown("""
     .css-18e3th9 {
         color: white !important;
     }
-    h1, p, h2 {
+    h1, p, h2, h3 {
         font-family: 'Arial', sans-serif;
     }
     h1 {
@@ -78,11 +78,13 @@ st.markdown("""
         font-weight: bold;
         margin-top: 20px;
         font-size: 16px;
+        color: #3d3d3d;
     }
     .info {
         font-size: 14px;
         margin-bottom: 10px;
         line-height: 1.6;
+        color: #3d3d3d; /* Matching the color of the dropdowns */
     }
     .stMarkdown {
         margin-bottom: 0px;

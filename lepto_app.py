@@ -255,7 +255,7 @@ if 'lepto_df' in locals() and not lepto_df.empty:
             ax.set_ylabel('Number of Weeks')
             ax.set_title('Weeks With/Without Cases', fontsize=14, color='gray')
             st.pyplot(fig)
-            st.markdown(f"**Insight:** From 2008-2020, there were {with_case_count} weeks with cases and {without_case_count} weeks without cases.")
+            st.markdown(f"From 2008-2020, there were {with_case_count} weeks **with cases** and {without_case_count} **weeks without cases**.")
 
     def show_chatbot(language):
         # Placeholder for chatbot section

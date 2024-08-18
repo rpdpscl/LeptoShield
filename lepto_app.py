@@ -120,7 +120,6 @@ def translate_text(text, language):
 if 'lepto_df' in locals() and not lepto_df.empty:
     def main():
         st.title("LeptoShield")
-        
         # Display the app description and disclaimer
         description = """
         **This app predicts and prevents leptospirosis by analyzing risk factors and providing medical info via the LeptoGuide chatbot.**

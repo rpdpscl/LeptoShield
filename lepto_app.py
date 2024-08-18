@@ -38,7 +38,7 @@ st.markdown("""
         color: white;
     }
     .stRadio label, .stSelectbox label {
-        color: #3d3d3d;  /* Update color to #3d3d3d */
+        color: #3d3d3d;  /* Set the color to #3d3d3d */
         font-size: 4px;  /* Match font size with dropdowns */
         margin-bottom: 0px;  /* Bring labels closer to the dropdown */
     }
@@ -90,6 +90,8 @@ st.markdown("""
         margin-bottom: 0px;
     }
     .stSelectbox > div > div {
+        background-color: #d9d9d9;  /* Set dropdown background color */
+        color: #3d3d3d;  /* Set dropdown text color */
         height: 35px;  /* Slightly increased height to prevent text from being cropped */
         font-size: 12px;  /* Consistent font size inside dropdowns */
     }

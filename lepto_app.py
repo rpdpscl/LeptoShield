@@ -39,8 +39,9 @@ st.markdown("""
     }
     .stRadio label, .stSelectbox label {
         color: #19535b;
-        font-size: 5px;  /* Further reduced font size for the select labels */
+        font-size: 2px;  /* Further reduced font size for the select labels */
         margin-bottom: 0px;  /* Bring labels closer to the dropdowns */
+        margin-top: 10px;
     }
     .css-18e3th9 {
         color: white !important;

@@ -123,7 +123,7 @@ if 'lepto_df' in locals() and not lepto_df.empty and 'city_summary' in locals() 
         st.title("LeptoShield")
         # Display the app description and disclaimer
         description = """
-        **This app panalyzes key risk factors for leptospirosis. It aims to assist cities in implementing timely interventions, benefiting government agencies, communities, public health professionals, and medical personnel. For informational purposes only**
+        **This app analyzes key risk factors for leptospirosis. It aims to assist cities in implementing timely interventions, benefiting government agencies, communities, public health professionals, and medical personnel. For informational purposes only**
         """
         st.markdown(description)
 

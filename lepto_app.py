@@ -302,7 +302,6 @@ if 'lepto_df' in locals() and not lepto_df.empty and 'city_summary' in locals() 
         # Placeholder for the second column
         with col2:
             # You can use st.empty() or a simple text placeholder
-            st.markdown("### Placeholder for Future Visualization")
             
     if __name__ == "__main__":
         main()
